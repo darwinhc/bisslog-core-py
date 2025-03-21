@@ -1,7 +1,7 @@
 import logging
 import pytest
 
-from bisslog_core import ServiceTracerLogging
+from bisslog_core.adapters.tracing.service_tracer_logging import ServiceTracerLogging
 
 
 @pytest.fixture

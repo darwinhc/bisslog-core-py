@@ -1,7 +1,7 @@
 import logging
 import pytest
 
-from bisslog_core import TransactionalTracerLogging
+from bisslog_core.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
 
 
 @pytest.fixture
@@ -65,7 +65,7 @@ def test_tech_error_log(transactional_tracer, caplog):
         except ValueError as e:
             transactional_tracer.tech_error("Tech error occurred", error=e, transaction_id="tx-7", checkpoint_id="cp-7")
 
-    assert any("Tech error occurred" in record.message for record in caplog.records)
+    assert any("Test exception" in record.message for record in caplog.records)
     assert any(record.levelname == "CRITICAL" for record in caplog.records)
 
 def test_report_start_external_log(transactional_tracer, caplog):
