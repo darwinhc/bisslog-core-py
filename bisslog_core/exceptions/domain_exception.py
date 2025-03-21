@@ -13,7 +13,6 @@ FunctionalNotFoundException
 
 from dataclasses import dataclass
 
-from typing_extensions import Optional
 
 
 @dataclass
@@ -45,20 +44,9 @@ class DomainException(Exception):
     message: str
 
 
-@dataclass
 class NotFound(DomainException):
-    """
-    Specific exception for cases where a resource was not found.
+    pass
 
-    This class inherits from FunctionalException and is specifically used
-    to handle cases of resources not found in the application.
-
-    See Also
-    --------
-    FunctionalException : Base class for functional exceptions
-
-    Examples
-    --------
-    >>> raise NotFound("point-identification-1", "The requested resource does not exist")
-    """
+class NotAllowed(DomainException):
+    pass
 
