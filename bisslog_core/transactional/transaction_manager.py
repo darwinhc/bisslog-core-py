@@ -78,5 +78,9 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
     def close_transaction(self):
         self._thread_active_transaction_mapping[self.get_thread_id()].pop()
 
+    def clear(self):
+        with self._loc:
+            self._thread_active_transaction_mapping.clear()
+
 
 transaction_manager = TransactionManager()
