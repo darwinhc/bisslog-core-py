@@ -1,6 +1,9 @@
+"""
+Module providing the DomainContext class.
+"""
 from typing import Optional
 
-from bisslog_core import TransactionalTracerLogging
+from bisslog_core.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
 from bisslog_core.adapters.tracing.opener_tracer_logging import OpenerTracerLogging
 from bisslog_core.adapters.tracing.service_tracer_logging import ServiceTracerLogging
 from bisslog_core.ports.tracing.opener_tracer import OpenerTracer
@@ -10,8 +13,24 @@ from bisslog_core.utils.singleton import SingletonReplaceAttrsMeta
 
 
 class DomainContext(metaclass=SingletonReplaceAttrsMeta):
+    """
+    Singleton class managing tracing components within an application.
+
+    This class provides a centralized way to initialize and manage different
+    tracers used for logging and monitoring purposes.
+    """
 
     def __init__(self, appname: Optional[str] = None, runtime_ecosystem: Optional[str] = None):
+        """
+        Initializes the DomainContext instance.
+
+        Parameters
+        ----------
+        appname : Optional[str], optional
+            The name of the application using the context, by default None.
+        runtime_ecosystem : Optional[str], optional
+            The runtime environment of the application (e.g., "script", "server"), by default None.
+        """
         self.appname = appname
         self.runtime_ecosystem = runtime_ecosystem
         self.tracer: Optional[TransactionalTracer] = None
@@ -19,6 +38,13 @@ class DomainContext(metaclass=SingletonReplaceAttrsMeta):
         self.service_tracer: Optional[ServiceTracer] = None
 
     def init_default(self):
+        """
+        Initializes the default tracing components.
+
+        This method sets up default instances of `OpenerTracerLogging`,
+        `ServiceTracerLogging`, and `TransactionalTracerLogging`.
+        It also assigns the runtime ecosystem to "script".
+        """
         self.opener = OpenerTracerLogging()
         self.service_tracer = ServiceTracerLogging()
         self.runtime_ecosystem = "script"

@@ -1,8 +1,21 @@
+"""
+Module for database adapter handling.
+"""
+
 from bisslog_core.adapt_handler.adapt_handler import AdaptHandler
 
 
 class BissLogDB(AdaptHandler):
-    pass
+    """Database adapter handler.
+
+    This class extends `AdaptHandler` to provide a standardized way
+    to interact with the main database.
+
+    Inherits
+    --------
+    AdaptHandler : Provides adapter handling capabilities.
+    """
 
 
+# Global instance of the database adapter
 bisslog_db = BissLogDB("main-database")

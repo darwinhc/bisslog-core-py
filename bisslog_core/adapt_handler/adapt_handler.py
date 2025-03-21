@@ -1,8 +1,6 @@
-"""Module providing the AdaptHandler class for managing adapters in a domain-driven design (DDD) context.
-
-This module defines the `AdaptHandler` class, which facilitates the registration and retrieval of adapters
-for different divisions within a component. It ensures that each division maintains a distinct and well-defined
-language in compliance with DDD principles.
+"""
+Module providing the AdaptHandler class for managing adapters in a
+domain-driven design (DDD) context.
 """
 
 from bisslog_core.adapters.blank_adapter import BlankAdapter
@@ -13,8 +11,8 @@ from bisslog_core.ports.tracing.service_tracer import ServiceTracer
 class AdaptHandler:
     """Handler for managing adapters associated with different divisions of a component.
 
-    This class allows registering adapters for various divisions within a component, retrieving them,
-    and handling undefined divisions by generating blank adapters.
+    This class allows registering adapters for various divisions within a component,
+    retrieving them, and handling undefined divisions by generating blank adapters.
 
     Parameters
     ----------
@@ -55,9 +53,10 @@ class AdaptHandler:
         for division_name, adapter in named_division_instances.items():
             if division_name in self._divisions:
                 self.log_service.warning(
-                    f"The division named '{division_name}' already exists in the adapter handler "
-                    f"{self.component}. Are you trying to replace it? To comply with DDD "
-                    "(Domain-Driven Design) principles, each division should have a distinct"
+                    f"The division named '{division_name}' already exists"
+                    f" in the adapter handler {self.component}. Are you trying to replace it?"
+                    " To comply with DDD (Domain-Driven Design) principles, "
+                    "each division should have a distinct"
                     " and well-defined language",
                     checkpoint_id="repeated-division",
                 )
@@ -102,7 +101,8 @@ class AdaptHandler:
         raise AttributeError(f"Division named '{division_name}' does not exist.")
 
     def __getattribute__(self, name):
-        """Retrieves an attribute or dynamically generates a blank adapter if the attribute is a division name.
+        """Retrieves an attribute or dynamically generates a blank adapter
+        if the attribute is a division name.
 
         Parameters
         ----------
@@ -112,7 +112,8 @@ class AdaptHandler:
         Returns
         -------
         object
-            The retrieved attribute or a blank adapter if the name corresponds to an unregistered division.
+            The retrieved attribute or a blank adapter if the name corresponds
+            to an unregistered division.
         """
         try:
             return super().__getattribute__(name)

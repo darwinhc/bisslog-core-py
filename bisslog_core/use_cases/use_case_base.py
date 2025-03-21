@@ -1,3 +1,6 @@
+"""
+Module defining the base class for use cases.
+"""
 from abc import abstractmethod, ABC
 from typing import Optional
 

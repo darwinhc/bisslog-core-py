@@ -1,31 +1,13 @@
-from abc import abstractmethod, ABC
-from typing import Optional
+"""
+Module defining the abstract Tracer class for logging and tracing.
+"""
 
+from abc import ABC
 
 
 class Tracer(ABC):
+    """Abstract base class for logging and tracing events.
 
-    @abstractmethod
-    def info(self, payload: object, *args, transaction_id: Optional[str] = None,
-                 checkpoint_id: Optional[str] = None, **kwargs):
-        raise NotImplementedError("TracingManager must implement method info")
-
-    @abstractmethod
-    def debug(self, payload: object, *args, transaction_id: Optional[str] = None,
-                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
-        raise NotImplementedError("TracingManager must implement method debug")
-
-    @abstractmethod
-    def warning(self, payload: object, *args, transaction_id: Optional[str] = None,
-                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
-        raise NotImplementedError("TracingManager must implement method warning")
-
-    @abstractmethod
-    def error(self, payload: object, *args, transaction_id: Optional[str] = None,
-                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
-        raise NotImplementedError("TracingManager must implement method error")
-
-    @abstractmethod
-    def critical(self, payload: object, *args, transaction_id: Optional[str] = None,
-                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
-        raise NotImplementedError("TracingManager must implement method critical")
+    This class defines methods for logging information, debugging, warnings,
+    errors, and critical issues, ensuring a consistent tracing mechanism.
+    """

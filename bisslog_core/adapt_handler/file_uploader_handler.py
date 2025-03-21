@@ -1,11 +1,21 @@
-from typing import Optional
+"""
+This module defines the UploadFileHandler, an adapter handler
+responsible for managing file upload operations.
+"""
 
 from bisslog_core.adapt_handler.adapt_handler import AdaptHandler
-from bisslog_core.adapters.base_adapter import BaseAdapter
-from bisslog_core.ports.upload_file import IUploadFile
 
 
 class UploadFileHandler(AdaptHandler):
-    pass
+    """
+    Handler for managing file upload operations.
+
+    This class serves as an adapter handler for file uploads, allowing
+    the integration of different file storage mechanisms.
+
+    It extends `AdaptHandler` to provide a structured way to handle
+    file upload operations dynamically.
+    """
+
 
 bisslog_upload_file = UploadFileHandler("file-uploader")
