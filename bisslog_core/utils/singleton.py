@@ -1,6 +1,4 @@
-"""
-Module implementing a singleton metaclass with attribute replacement.
-"""
+"""Module implementing a singleton metaclass with attribute replacement."""
 
 from threading import Lock
 
@@ -32,8 +30,7 @@ class SingletonReplaceAttrsMeta(type):
         Returns
         -------
         object
-            The singleton instance of the class.
-        """
+            The singleton instance of the class."""
         with cls._lock:
             new_instance = super().__call__(*args, **kwargs)
             if cls not in cls._instances:
@@ -57,7 +54,6 @@ class SingletonReplaceAttrsMeta(type):
         Returns
         -------
         dict
-            A dictionary of attribute names and their values.
-        """
+            A dictionary of attribute names and their values."""
         return {key: value for key, value in new_inst.__dict__.items()
                 if value is not None and not key.startswith("_")}

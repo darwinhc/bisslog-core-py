@@ -1,7 +1,5 @@
-"""
-This module defines custom exceptions for handling functional errors
-in a structured way throughout the application.
-"""
+"""This module defines custom exceptions for handling functional errors
+in a structured way throughout the application."""
 
 from dataclasses import dataclass
 

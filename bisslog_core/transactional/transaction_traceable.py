@@ -1,6 +1,4 @@
-"""
-Module implementing transaction traceability support.
-"""
+"""Module implementing transaction traceability support."""
 
 from bisslog_core.domain_context import domain_context
 from bisslog_core.transactional.transaction_manager import TransactionManager, transaction_manager
@@ -15,8 +13,7 @@ class TransactionTraceable:
     Properties
     ----------
     log : object
-        Provides access to the logging and tracing system from the domain context.
-    """
+        Provides access to the logging and tracing system from the domain context."""
 
     @property
     def _transaction_manager(self) -> TransactionManager:

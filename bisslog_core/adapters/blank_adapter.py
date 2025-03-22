@@ -1,21 +1,16 @@
-"""
-Module providing a blank adapter implementation.
-"""
+"""Module providing a blank adapter implementation."""
 from bisslog_core.adapters.base_adapter import BaseAdapter
 
 
 class BlankAdapter(BaseAdapter):
-    """
-    Adapter that handles undefined components in a division by logging method calls.
-    """
+    """Adapter that handles undefined components in a division by logging method calls."""
 
     def __init__(self, name_division_not_found: str, original_comp: str):
         self.division_name = name_division_not_found
         self.original_comp = original_comp
 
     def __getattribute__(self, item):
-        """
-        Overrides attribute access to provide a blank implementation for undefined methods.
+        """Overrides attribute access to provide a blank implementation for undefined methods.
 
         Parameters
         ----------
@@ -25,24 +20,21 @@ class BlankAdapter(BaseAdapter):
         Returns
         -------
         Callable
-            A function that logs the method call with its arguments when invoked.
-        """
+            A function that logs the method call with its arguments when invoked."""
         try:
             return super().__getattribute__(item)
         except AttributeError:
             pass
 
         def blank_use_of_adapter(*args, **kwargs):
-            """
-            Logs a message indicating that a method was called on a blank adapter.
+            """Logs a message indicating that a method was called on a blank adapter.
 
             Parameters
             ----------
             *args
                 Positional arguments passed to the method.
             **kwargs
-                Keyword arguments passed to the method.
-            """
+                Keyword arguments passed to the method."""
             separator = "#" * 80
 
             self.log.info(

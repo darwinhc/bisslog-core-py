@@ -1,8 +1,5 @@
-"""
-Module defining the base class for use cases.
-"""
+"""Module defining the base class for use cases."""
 from abc import abstractmethod, ABC
-from typing import Optional
 
 
 class UseCaseBase(ABC):
@@ -17,7 +14,7 @@ class UseCaseBase(ABC):
 
     Reference: https://www.iso.org/obp/ui/#iso:std:iso-iec-ieee:24765:ed-2:v1:en"""
 
-    def __init__(self, keyname: Optional[str] = None):
+    def __init__(self, keyname: str|None = None):
         self.keyname = keyname if keyname else self.__class__.__name__
 
     @abstractmethod

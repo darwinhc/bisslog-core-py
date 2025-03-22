@@ -1,6 +1,4 @@
-"""
-Module defining the abstract IPublisher class for message publishing.
-"""
+"""Module defining the abstract IPublisher class for message publishing."""
 
 from abc import ABC, abstractmethod
 
@@ -22,6 +20,5 @@ class IPublisher(ABC):
         body : object
             The message payload to be sent.
         partition : str, optional
-            The partition key, if applicable (default is None).
-        """
+            The partition key, if applicable (default is None)."""
         raise NotImplementedError("Method publish must be implemented")

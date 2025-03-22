@@ -1,57 +1,47 @@
-"""
-This module defines a thread-safe transaction management system.
-"""
-
+"""This module defines a thread-safe transaction management system."""
+from __future__ import annotations
 import threading
 import uuid
 from dataclasses import dataclass
-from typing import Dict, List
 
 from bisslog_core.utils.singleton import SingletonReplaceAttrsMeta
 
 
 @dataclass
 class Transaction:
-    """
-    Represents a transactional context with a unique identifier and a component name.
+    """Represents a transactional context with a unique identifier and a component name.
 
     Attributes
     ----------
     transaction_id : str
         Unique identifier for the transaction.
     component : str
-        The name of the component initiating the transaction.
-    """
+        The name of the component initiating the transaction."""
     transaction_id: str
     component: str
 
 
 class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
-    """
-    Manages transactions in a thread-safe manner using a singleton pattern.
+    """Manages transactions in a thread-safe manner using a singleton pattern.
 
-    This class allows creating, retrieving, and clearing transactions per thread.
-    """
+    This class allows creating, retrieving, and clearing transactions per thread."""
 
     def __init__(self):
-        self._thread_active_transaction_mapping: Dict[int, List[Transaction]] = {}
+        self._thread_active_transaction_mapping: dict[int, list[Transaction]] = {}
         self._loc = threading.Lock()
 
     @staticmethod
     def get_thread_id() -> int:
-        """
-        Retrieves the current thread's identifier.
+        """Retrieves the current thread's identifier.
 
         Returns
         -------
         int
-            The unique identifier of the current thread.
-        """
+            The unique identifier of the current thread."""
         return threading.get_ident()
 
     def create_transaction_id(self, component: str) -> str:
-        """
-        Creates a new unique transaction identifier and stores it.
+        """Creates a new unique transaction identifier and stores it.
 
         Parameters
         ----------
@@ -61,8 +51,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
         Returns
         -------
         str
-            The generated UUID as a string.
-        """
+            The generated UUID as a string."""
         transaction_id = str(uuid.uuid4())
         with self._loc:
             thread_id = self.get_thread_id()
@@ -76,8 +65,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
         return transaction_id
 
     def get_transaction_id(self) -> str:
-        """
-        Retrieves the latest transaction ID associated with the current thread.
+        """Retrieves the latest transaction ID associated with the current thread.
 
         Returns
         -------
@@ -87,8 +75,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
         Raises
         ------
         KeyError
-            If no transaction is found for the current thread.
-        """
+            If no transaction is found for the current thread."""
         with self._loc:
             thread_id = self.get_thread_id()
             if (
@@ -99,8 +86,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
             raise KeyError("Transaction ID not found in cache")
 
     def get_component(self) -> str:
-        """
-        Retrieves the component associated with the latest transaction of the current thread.
+        """Retrieves the component associated with the latest transaction of the current thread.
 
         Returns
         -------
@@ -110,8 +96,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
         Raises
         ------
         KeyError
-            If no transaction is found for the current thread.
-        """
+            If no transaction is found for the current thread."""
         with self._loc:
             thread_id = self.get_thread_id()
             if (
@@ -122,8 +107,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
             raise KeyError("Transaction ID not found in cache")
 
     def get_main_transaction_id(self) -> str:
-        """
-        Retrieves the first transaction ID created for the current thread.
+        """Retrieves the first transaction ID created for the current thread.
 
         Returns
         -------
@@ -133,8 +117,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
         Raises
         ------
         KeyError
-            If no transaction exists for the current thread.
-        """
+            If no transaction exists for the current thread."""
         with self._loc:
             thread_id = self.get_thread_id()
             if (
@@ -145,20 +128,16 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
             raise KeyError("Transaction ID not found in cache")
 
     def close_transaction(self):
-        """
-        Closes the most recent transaction for the current thread.
+        """Closes the most recent transaction for the current thread.
 
         Raises
         ------
         IndexError
-            If no transaction exists to close.
-        """
+            If no transaction exists to close."""
         self._thread_active_transaction_mapping[self.get_thread_id()].pop()
 
     def clear(self):
-        """
-        Clears all transactions from the cache.
-        """
+        """Clears all transactions from the cache."""
         with self._loc:
             self._thread_active_transaction_mapping.clear()
 

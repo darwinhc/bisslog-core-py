@@ -1,6 +1,4 @@
-"""
-Module defining the Division abstraction.
-"""
+"""Module defining the Division abstraction."""
 
 from abc import ABC
 
@@ -19,5 +17,4 @@ class Division(ABC):
     Notes
     -----
     Subclasses should implement methods for interacting with the database
-    based on specific requirements.
-    """
+    based on specific requirements."""

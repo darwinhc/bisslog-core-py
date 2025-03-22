@@ -1,6 +1,4 @@
-"""
-Module for database adapter handling.
-"""
+"""Module for database adapter handling."""
 
 from bisslog_core.adapt_handler.adapt_handler import AdaptHandler
 
@@ -13,8 +11,7 @@ class BissLogDB(AdaptHandler):
 
     Inherits
     --------
-    AdaptHandler : Provides adapter handling capabilities.
-    """
+    AdaptHandler : Provides adapter handling capabilities."""
 
 
 # Global instance of the database adapter

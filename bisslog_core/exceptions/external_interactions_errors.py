@@ -11,8 +11,7 @@ class ExternalInteractionError(Exception):
 class WarningExtException(ExternalInteractionError):
     """Exception raised for important warnings like data truncations while inserting, etc.
 
-    ref: https://peps.python.org/pep-0249/#warning
-    """
+    ref: https://peps.python.org/pep-0249/#warning"""
 
 
 class ErrorExtException(ExternalInteractionError):

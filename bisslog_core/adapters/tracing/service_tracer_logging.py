@@ -1,151 +1,160 @@
-"""
-Module providing logging-based implementation of the ServiceTracer interface.
-"""
+"""Module providing logging-based implementation of the ServiceTracer interface."""
 
 import logging
-from typing import Optional
 
 from bisslog_core.ports.tracing.service_tracer import ServiceTracer
 
 
 class ServiceTracerLogging(ServiceTracer):
-    """
-    Implementation of ServiceTracer that logs messages using Python's logging module.
-    """
+    """Implementation of ServiceTracer that logs messages using Python's logging module."""
 
     def __init__(self):
         self._logger = logging.getLogger("service-logger")
 
-    def info(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def info(self, payload: object, *args, checkpoint_id: str|None = None,
              extra: dict = None, **kwargs):
-        """
-        Logs an informational message.
+        """Logs an informational message.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger.
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.info(payload, *args, **kwargs, extra=extra)
 
-    def debug(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def debug(self, payload: object, *args, checkpoint_id: str|None = None,
               extra: dict = None, **kwargs):
-        """
-        Logs a debug message.
+        """Logs a debug message.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.debug(payload, *args, **kwargs)
 
-    def warning(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def warning(self, payload: object, *args, checkpoint_id: str|None = None,
                 extra: dict = None, **kwargs):
-        """
-        Logs a warning message.
+        """Logs a warning message.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.warning(payload, *args, **kwargs, extra=extra)
 
-    def error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def error(self, payload: object, *args, checkpoint_id: str|None = None,
               extra: dict = None, **kwargs):
-        """
-        Logs an error message.
+        """Logs an error message.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.error(payload, *args, **kwargs, extra=extra)
 
-    def critical(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def critical(self, payload: object, *args, checkpoint_id: str|None = None,
                  extra: dict = None, **kwargs):
-        """
-        Logs a critical error message.
+        """Logs a critical error message.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.critical(payload, *args, **kwargs, extra=extra)
 
-    def func_error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def func_error(self, payload: object, *args, checkpoint_id: str|None = None,
                    extra: dict = None, **kwargs):
-        """
-        Logs a function-related error message.
+        """Logs a function-related error message.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.error(payload, *args, **kwargs, extra=extra)
 
-    def tech_error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def tech_error(self, payload: object, *args, checkpoint_id: str|None = None,
                    error: Exception = None, extra: dict = None, **kwargs):
-        """
-        Logs a technical error message, optionally including an exception.
+        """Logs a technical error message, optionally including an exception.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         error : Exception, optional
             The exception to include in the log, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         new_payload: str = str(payload)
         if error is not None:
             new_payload = new_payload + " " + str(error)
@@ -154,39 +163,43 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.critical(new_payload, *args, **kwargs, extra=extra)
 
-    def report_start_external(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def report_start_external(self, payload: object, *args, checkpoint_id: str|None = None,
                               extra: dict = None, **kwargs):
-        """
-        Logs the start of an external process or interaction.
+        """Logs the start of an external process or interaction.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'
         self._logger.info(payload, *args, **kwargs, extra=extra)
 
-    def report_end_external(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def report_end_external(self, payload: object, *args, checkpoint_id: str|None = None,
                             extra: dict = None, **kwargs):
-        """
-        Logs the end of an external process or interaction.
+        """Logs the end of an external process or interaction.
 
         Parameters
         ----------
         payload : object
             The message or object to log.
-        checkpoint_id : Optional[str], optional
+        args: tuple
+            Arguments to pass to the logger
+        checkpoint_id : str|None, optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        """
+        kwargs : dict
+            Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
         extra['transaction_id'] = 'service-logging'

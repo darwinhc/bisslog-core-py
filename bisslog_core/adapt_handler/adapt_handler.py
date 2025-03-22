@@ -1,7 +1,5 @@
-"""
-Module providing the AdaptHandler class for managing adapters in a
-domain-driven design (DDD) context.
-"""
+"""Module providing the AdaptHandler class for managing adapters in a
+domain-driven design (DDD) context."""
 
 from bisslog_core.adapters.blank_adapter import BlankAdapter
 from bisslog_core.domain_context import domain_context
@@ -17,8 +15,7 @@ class AdaptHandler:
     Parameters
     ----------
     component : str
-        The name of the component to which this adapter handler belongs.
-    """
+        The name of the component to which this adapter handler belongs."""
 
     def __init__(self, component: str):
         """Initializes the AdaptHandler with a component name and logging service.
@@ -26,8 +23,7 @@ class AdaptHandler:
         Parameters
         ----------
         component : str
-            The name of the component that this handler manages adapters for.
-        """
+            The name of the component that this handler manages adapters for."""
         self.log_service: ServiceTracer = domain_context.service_tracer
         self._divisions = {}
         self.component = component
@@ -38,8 +34,7 @@ class AdaptHandler:
         Parameters
         ----------
         adapter : object
-            The adapter instance to be set as the main adapter.
-        """
+            The adapter instance to be set as the main adapter."""
         self._divisions["main"] = adapter
 
     def register_adapters(self, **named_division_instances) -> None:
@@ -48,8 +43,7 @@ class AdaptHandler:
         Parameters
         ----------
         **named_division_instances : dict
-            A mapping of division names to their respective adapter instances.
-        """
+            A mapping of division names to their respective adapter instances."""
         for division_name, adapter in named_division_instances.items():
             if division_name in self._divisions:
                 self.log_service.warning(
@@ -74,8 +68,7 @@ class AdaptHandler:
         Returns
         -------
         BlankAdapter
-            A new instance of a blank adapter for the specified division.
-        """
+            A new instance of a blank adapter for the specified division."""
         return BlankAdapter(division_name, self.component)
 
     def get_division(self, division_name: str):
@@ -94,8 +87,7 @@ class AdaptHandler:
         Raises
         ------
         AttributeError
-            If the requested division does not exist.
-        """
+            If the requested division does not exist."""
         if division_name in self._divisions:
             return self._divisions[division_name]
         raise AttributeError(f"Division named '{division_name}' does not exist.")
@@ -113,8 +105,7 @@ class AdaptHandler:
         -------
         object
             The retrieved attribute or a blank adapter if the name corresponds
-            to an unregistered division.
-        """
+            to an unregistered division."""
         try:
             return super().__getattribute__(name)
         except AttributeError:

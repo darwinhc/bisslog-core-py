@@ -1,6 +1,4 @@
-"""
-Module defining the abstract INotifier class for sending notifications.
-"""
+"""Module defining the abstract INotifier class for sending notifications."""
 
 from abc import ABC, abstractmethod
 
@@ -17,6 +15,5 @@ class INotifier(ABC):
         Parameters
         ----------
         notification_obj : object
-            The notification payload to be sent.
-        """
+            The notification payload to be sent."""
         raise NotImplementedError("Callable must be implemented")
