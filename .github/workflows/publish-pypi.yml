@@ -18,7 +18,7 @@ jobs:
   run-complexity:
     uses: darwinhc/bisslog-core-py/.github/workflows/radon.yml@master
     with:
-      radon_complexity: ${{ vars.RADON_THRESHOLD }}
+      radon_threshold: ${{ vars.RADON_THRESHOLD }}
 
   deploy:
     runs-on: ubuntu-latest
