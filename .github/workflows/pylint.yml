@@ -8,6 +8,13 @@ on:
         required: false
         default: "9.0"
         type: string  # GitHub Actions trata los inputs como strings
+  workflow_dispatch:
+    inputs:
+      pylint_threshold:
+        description: "Mínimo puntaje de calidad requerido"
+        required: false
+        default: "9.0"
+        type: string  # GitHub Actions trata los inputs como strings
 
 jobs:
   lint:
