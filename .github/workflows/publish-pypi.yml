@@ -6,17 +6,17 @@ on:
   workflow_dispatch:
 jobs:
   run-tests:
-    uses: darwinhc/bisslog-core-py/.github/workflows/pytest.yml@main
+    uses: darwinhc/bisslog-core-py/.github/workflows/pytest.yml@master
     with:
       coverage_threshold: ${{ vars.TEST_COVERAGE_THRESHOLD }}
 
   run-linter:
-    uses: darwinhc/bisslog-core-py/.github/workflows/pylint.yml@main
+    uses: darwinhc/bisslog-core-py/.github/workflows/pylint.yml@master
     with:
       pylint_threshold: ${{ vars.PYLINT_THRESHOLD }}
 
   run-complexity:
-    uses: darwinhc/bisslog-core-py/.github/workflows/radon.yml@main
+    uses: darwinhc/bisslog-core-py/.github/workflows/radon.yml@master
     with:
       radon_complexity: ${{ vars.RADON_THRESHOLD }}
 
