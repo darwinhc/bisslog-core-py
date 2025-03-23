@@ -5,19 +5,23 @@ on:
     types: [published]
 jobs:
   run-tests:
-    uses: ./.github/workflows/pytest.yml
+    uses: darwinhc/bisslog-core-py/.github/workflows/pytest.yml@main
+    with:
+      coverage_threshold: ${{ vars.TEST_COVERAGE_THRESHOLD }}
 
   run-linter:
-    uses: ./.github/workflows/pylint.yml
-    needs: run-tests
+    uses: darwinhc/bisslog-core-py/.github/workflows/pylint.yml@main
+    with:
+      pylint_threshold: ${{ vars.PYLINT_THRESHOLD }}
 
-  run-radon:
-    uses: ./.github/workflows/radon.yml
-    needs: run-tests
+  run-complexity:
+    uses: darwinhc/bisslog-core-py/.github/workflows/radon.yml@main
+    with:
+      radon_complexity: ${{ vars.RADON_THRESHOLD }}
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [run-tests, run-linter, run-radon]  # Solo publica si los otros jobs pasan
+    needs: [run-tests, run-linter, run-complexity]
 
     steps:
       - name: Checkout code
