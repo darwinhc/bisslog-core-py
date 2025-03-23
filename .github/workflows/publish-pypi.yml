@@ -51,7 +51,7 @@ jobs:
         run: |
           python -m venv test_env
           source test_env/bin/activate
-          python -m pip install --index-url https://test.pypi.org/simple/ --no-deps bisslog-core
+          python -m pip install --index-url https://test.pypi.org/simple/ --no-deps bisslog
           deactivate
       - name: Publish to PyPI
         if: github.event_name == 'release'
