@@ -41,7 +41,7 @@ jobs:
         run: |
           VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version())")
           if [ "${{ github.event_name }}" != "release" ]; then
-            VERSION="$VERSION.dev${{ github.run_number }}"
+            VERSION="$VERSION.${{ github.run_number }}"
           fi
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
