@@ -1,23 +1,40 @@
-name: Pylint
+name: Python Linting with Pylint
 
-on: [push]
+on:
+  workflow_call:
+    inputs:
+      pylint_threshold:
+        description: "Minimum pylint quality score required"
+        required: false
+        default: "9.0"
+        type: string  # GitHub Actions trata los inputs como strings
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pylint
-    - name: Analysing the code with pylint
-      run: |
-        pylint --fail-under=9 --score=y --reports=y --rcfile=pylintrc $(git ls-files 'bisslog_core/*.py')
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"  # Usa la última versión disponible de Python
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pylint
+
+      - name: Run Pylint
+        run: |
+          SCORE=$(pylint bisslog_core --fail-under=${{ inputs.pylint_threshold }} | tee pylint_output.txt | grep -oP '(?<=rated at )\d+\.\d+' | tail -1)
+          
+          echo "Pylint Score: $SCORE"
+          
+          if (( $(echo "$SCORE < ${{ inputs.pylint_threshold }}" | bc -l) )); then
+            echo "❌ Pylint score is below the threshold!"
+            exit 1
+          fi
