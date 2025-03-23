@@ -37,7 +37,7 @@ jobs:
 
       - name: Run Pylint
         run: |
-          SCORE=$(pylint bisslog_core --fail-under=${{ inputs.pylint_threshold }} | tee pylint_output.txt | grep -oP '(?<=rated at )\d+\.\d+' | tail -1)
+          SCORE=$(pylint bisslog --fail-under=${{ inputs.pylint_threshold }} | tee pylint_output.txt | grep -oP '(?<=rated at )\d+\.\d+' | tail -1)
           
           echo "Pylint Score: $SCORE"
           

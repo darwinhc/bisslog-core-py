@@ -40,7 +40,7 @@ jobs:
           echo "🔍 Running Radon complexity analysis (threshold: ${{ inputs.radon_threshold }})..."
           
           # Run Radon and store results in a variable
-          RESULT=$(radon cc bisslog_core -nc --min ${{ inputs.radon_threshold }})
+          RESULT=$(radon cc bisslog -nc --min ${{ inputs.radon_threshold }})
 
           if [ -n "$RESULT" ]; then
             echo "❌ Found functions exceeding the complexity threshold ${{ inputs.radon_threshold }}:"

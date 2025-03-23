@@ -15,7 +15,7 @@ It is to create functionalities in the backend, without dependencies and based o
 
 To Run test with coverage
 ~~~cmd
-coverage run --source=bisslog_core -m pytest tests/
+coverage run --source=bisslog -m pytest tests/
 ~~~
 
 
