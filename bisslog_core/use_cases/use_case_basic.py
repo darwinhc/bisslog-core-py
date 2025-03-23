@@ -4,6 +4,7 @@ This module provides an abstract base class `BasicUseCase` that integrates
 transactional tracing into a use case execution flow."""
 
 from abc import ABC
+from typing import Optional
 
 from .use_case_base import UseCaseBase
 from ..transactional.transaction_traceable import TransactionTraceable
@@ -15,12 +16,12 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
     This class provides a structured way to execute use cases while tracking
     transactions using a tracing system."""
 
-    def __init__(self, keyname: str|None = None, *, do_trace: bool = True) -> None:
+    def __init__(self, keyname: Optional[str] = None, *, do_trace: bool = True) -> None:
         """Initializes the use case with optional tracing.
 
         Parameters
         ----------
-        keyname : str|None
+        keyname : Optional[str]
             Unique identifier for the use case.
         do_trace : bool, optional
             Determines if tracing should be enabled (default is True)."""
@@ -44,7 +45,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
             The result of the use case execution."""
         return self._use(*args, **kwargs)
 
-    def __start(self, *args, super_transaction_id: str|None = None, **kwargs) -> str|None:
+    def __start(self, *args, super_transaction_id: Optional[str] = None, **kwargs) -> Optional[str]:
         """Starts a transaction for the use case.
 
         If tracing is enabled or no parent transaction is provided, a new transaction is created.
@@ -53,14 +54,14 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
         ----------
         *args
             Positional arguments.
-        super_transaction_id : str|None, optional
+        super_transaction_id : Optional[str], optional
             The ID of an existing transaction that this use case is part of.
         **kwargs
             Additional keyword arguments.
 
         Returns
         -------
-        str|None
+        Optional[str]
             The transaction ID created or the provided parent transaction ID."""
         if self._do_trace or super_transaction_id is None:
             transaction_id = self._transaction_manager.create_transaction_id(self.keyname)
@@ -71,7 +72,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
             return transaction_id
         return super_transaction_id
 
-    def __end(self, transaction_id: str, super_transaction_id: str|None, result: object):
+    def __end(self, transaction_id: str, super_transaction_id: Optional[str], result: object):
         """Ends the transaction after use case execution.
 
         If tracing is enabled, it ensures the transaction is properly closed.
@@ -80,7 +81,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
         ----------
         transaction_id : str
             The transaction ID of the executed use case.
-        super_transaction_id : str|None
+        super_transaction_id : Optional[str]
             The ID of the parent transaction, if any.
         result : object
             The result of the use case execution."""

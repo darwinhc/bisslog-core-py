@@ -1,10 +1,9 @@
 """This module defines a thread-safe transaction management system."""
-from __future__ import annotations
 import threading
 import uuid
 from dataclasses import dataclass
 
-from bisslog_core.utils.singleton import SingletonReplaceAttrsMeta
+from ..utils.singleton import SingletonReplaceAttrsMeta
 
 
 @dataclass

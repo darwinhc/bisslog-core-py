@@ -2,6 +2,8 @@
 
 from abc import ABC, abstractmethod
 
+from typing import Optional
+
 
 class OpenerTracer(ABC):
     """Abstract base class for tracing the start and end of transactions.
@@ -11,7 +13,7 @@ class OpenerTracer(ABC):
 
     @abstractmethod
     def start(self, *args, transaction_id: str, component: str,
-              super_transaction_id: str|None = None, **kwargs):
+              super_transaction_id: Optional[str] = None, **kwargs):
         """Marks the start of a transaction.
 
         Parameters
@@ -25,8 +27,8 @@ class OpenerTracer(ABC):
         raise NotImplementedError("TracingOpener must implement start")
 
     @abstractmethod
-    def end(self, *args, transaction_id: str|None, component: str,
-            super_transaction_id: str|None, result: object = None):
+    def end(self, *args, transaction_id: Optional[str], component: str,
+            super_transaction_id: Optional[str], result: object = None):
         """Marks the end of a transaction.
 
         Parameters

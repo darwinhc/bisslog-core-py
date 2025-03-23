@@ -1,7 +1,7 @@
 """This module defines the UploadFileHandler, an adapter handler
 responsible for managing file upload operations."""
 
-from bisslog_core.adapt_handler.adapt_handler import AdaptHandler
+from .adapt_handler import AdaptHandler
 
 
 class UploadFileHandler(AdaptHandler):

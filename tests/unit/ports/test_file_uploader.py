@@ -6,10 +6,10 @@ from bisslog_core.ports.upload_file import IUploadFile
 
 # Implementación de prueba para simular una clase concreta
 class UploadFileMock(IUploadFile):
-    def upload_file_from_local(self, local_path: str, remote_path: str, *args, transaction_id: str|None = None, **kwargs) -> bool:
+    def upload_file_from_local(self, local_path: str, remote_path: str, *args, transaction_id: Optional[str] = None, **kwargs) -> bool:
         return True
 
-    def upload_file_stream(self, remote_path: str, stream: bytes, *args, transaction_id: str|None = None, **kwargs) -> bool:
+    def upload_file_stream(self, remote_path: str, stream: bytes, *args, transaction_id: Optional[str] = None, **kwargs) -> bool:
         return True
 
 def test_upload_file_from_local():

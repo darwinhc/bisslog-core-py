@@ -1,9 +1,10 @@
 """Module defining the base class for transactional tracing."""
 
 from abc import abstractmethod, ABC
+from typing import Optional
 
-from bisslog_core.ports.tracing.tracer import Tracer
-from bisslog_core.transactional.transaction_manager import TransactionManager, transaction_manager
+from ...ports.tracing.tracer import Tracer
+from ...transactional.transaction_manager import TransactionManager, transaction_manager
 
 
 class TransactionalTracer(Tracer, ABC):
@@ -23,8 +24,8 @@ class TransactionalTracer(Tracer, ABC):
             The singleton instance of the transaction manager."""
         return transaction_manager
 
-    def _re_args_with_main(self, transaction_id: str|None = None,
-                           checkpoint_id: str|None = None) -> dict:
+    def _re_args_with_main(self, transaction_id: Optional[str] = None,
+                           checkpoint_id: Optional[str] = None) -> dict:
         """Constructs a dictionary containing the main transaction ID and checkpoint ID.
 
         If the transaction ID is not provided, it retrieves the main transaction ID
@@ -32,9 +33,9 @@ class TransactionalTracer(Tracer, ABC):
 
         Parameters
         ----------
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             The transaction ID to use. If None, retrieves the main transaction ID.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             The checkpoint identifier. If None, defaults to an empty string.
 
         Returns
@@ -47,8 +48,8 @@ class TransactionalTracer(Tracer, ABC):
             checkpoint_id = ""
         return {"transaction_id": transaction_id, "checkpoint_id": checkpoint_id}
 
-    def _re_args_with_current(self, transaction_id: str|None = None,
-                              checkpoint_id: str|None = None) -> dict:
+    def _re_args_with_current(self, transaction_id: Optional[str] = None,
+                              checkpoint_id: Optional[str] = None) -> dict:
         """Constructs a dictionary containing the current transaction ID and checkpoint ID.
 
         If the transaction ID is not provided, it retrieves the current transaction ID
@@ -56,9 +57,9 @@ class TransactionalTracer(Tracer, ABC):
 
         Parameters
         ----------
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             The transaction ID to use. If None, retrieves the current transaction ID.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             The checkpoint identifier. If None, defaults to an empty string.
 
         Returns
@@ -72,8 +73,8 @@ class TransactionalTracer(Tracer, ABC):
         return {"transaction_id": transaction_id, "checkpoint_id": checkpoint_id}
 
     @abstractmethod
-    def func_error(self, payload: object, *args, transaction_id: str|None = None,
-                   checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def func_error(self, payload: object, *args, transaction_id: Optional[str] = None,
+                   checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Reports a functional error in the tracing system.
 
         This method must be implemented by subclasses to log functional errors.
@@ -84,9 +85,9 @@ class TransactionalTracer(Tracer, ABC):
             The error payload containing relevant data.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             The transaction ID associated with the error.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             The checkpoint where the error occurred.
         extra : dict, optional
             Additional metadata for tracing.
@@ -95,8 +96,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method func_error")
 
     @abstractmethod
-    def tech_error(self, payload: object, *args, transaction_id: str|None = None,
-                   checkpoint_id: str|None = None, error: Exception = None, extra: dict = None,
+    def tech_error(self, payload: object, *args, transaction_id: Optional[str] = None,
+                   checkpoint_id: Optional[str] = None, error: Exception = None, extra: dict = None,
                    **kwargs):
         """Reports a technical error in the tracing system.
 
@@ -108,9 +109,9 @@ class TransactionalTracer(Tracer, ABC):
             The error payload containing relevant data.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             The transaction ID associated with the error.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             The checkpoint where the error occurred.
         extra : dict, optional
             Additional metadata for tracing.
@@ -121,8 +122,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method tech_error")
 
     @abstractmethod
-    def report_start_external(self, payload: object, *args, transaction_id: str|None = None,
-                              checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def report_start_external(self, payload: object, *args, transaction_id: Optional[str] = None,
+                              checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Reports the start of an external process in the tracing system.
 
         This method must be implemented by subclasses to log the start of an
@@ -134,9 +135,9 @@ class TransactionalTracer(Tracer, ABC):
             The payload containing relevant data about the external process.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             The transaction ID associated with the external process.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             The checkpoint where the external process started.
         extra : dict, optional
             Additional metadata for tracing.
@@ -145,8 +146,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method report_start_external")
 
     @abstractmethod
-    def report_end_external(self, payload: object, *args, transaction_id: str|None = None,
-                            checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def report_end_external(self, payload: object, *args, transaction_id: Optional[str] = None,
+                            checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Reports the end of an external process in the tracing system.
 
         This method must be implemented by subclasses to log the completion of an
@@ -158,9 +159,9 @@ class TransactionalTracer(Tracer, ABC):
             The payload containing relevant data about the external process.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             The transaction ID associated with the external process.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             The checkpoint where the external process ended.
         extra : dict, optional
             Additional metadata for tracing.
@@ -170,8 +171,8 @@ class TransactionalTracer(Tracer, ABC):
 
 
     @abstractmethod
-    def info(self, payload: object, *args, transaction_id: str|None = None,
-             checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def info(self, payload: object, *args, transaction_id: Optional[str] = None,
+             checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs an informational message.
 
         Parameters
@@ -180,7 +181,7 @@ class TransactionalTracer(Tracer, ABC):
             The data or message to be logged.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -191,8 +192,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method info")
 
     @abstractmethod
-    def debug(self, payload: object, *args, transaction_id: str|None = None,
-                 checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def debug(self, payload: object, *args, transaction_id: Optional[str] = None,
+                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a debug message.
 
         Parameters
@@ -201,7 +202,7 @@ class TransactionalTracer(Tracer, ABC):
             The data or message to be logged.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -212,8 +213,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method debug")
 
     @abstractmethod
-    def warning(self, payload: object, *args, transaction_id: str|None = None,
-                 checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def warning(self, payload: object, *args, transaction_id: Optional[str] = None,
+                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a warning message.
 
         Parameters
@@ -222,7 +223,7 @@ class TransactionalTracer(Tracer, ABC):
             The data or message to be logged.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -233,8 +234,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method warning")
 
     @abstractmethod
-    def error(self, payload: object, *args, transaction_id: str|None = None,
-              checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def error(self, payload: object, *args, transaction_id: Optional[str] = None,
+              checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs an error message.
 
         Parameters
@@ -243,7 +244,7 @@ class TransactionalTracer(Tracer, ABC):
             The data or message to be logged.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -254,8 +255,8 @@ class TransactionalTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method error")
 
     @abstractmethod
-    def critical(self, payload: object, *args, transaction_id: str|None = None,
-                 checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def critical(self, payload: object, *args, transaction_id: Optional[str] = None,
+                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a critical error message.
 
         Parameters
@@ -264,7 +265,7 @@ class TransactionalTracer(Tracer, ABC):
             The data or message to be logged.
         *args: tuple
             Arguments
-        transaction_id : str|None, optional
+        transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.

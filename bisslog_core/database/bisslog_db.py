@@ -1,6 +1,6 @@
 """Module for database adapter handling."""
 
-from bisslog_core.adapt_handler.adapt_handler import AdaptHandler
+from ..adapt_handler.adapt_handler import AdaptHandler
 
 
 class BissLogDB(AdaptHandler):

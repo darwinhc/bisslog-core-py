@@ -1,8 +1,8 @@
 """Module providing logging-based implementation of the ServiceTracer interface."""
-
 import logging
+from typing import Optional
 
-from bisslog_core.ports.tracing.service_tracer import ServiceTracer
+from ...ports.tracing.service_tracer import ServiceTracer
 
 
 class ServiceTracerLogging(ServiceTracer):
@@ -11,7 +11,7 @@ class ServiceTracerLogging(ServiceTracer):
     def __init__(self):
         self._logger = logging.getLogger("service-logger")
 
-    def info(self, payload: object, *args, checkpoint_id: str|None = None,
+    def info(self, payload: object, *args, checkpoint_id: Optional[str] = None,
              extra: dict = None, **kwargs):
         """Logs an informational message.
 
@@ -21,7 +21,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger.
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -32,7 +32,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.info(payload, *args, **kwargs, extra=extra)
 
-    def debug(self, payload: object, *args, checkpoint_id: str|None = None,
+    def debug(self, payload: object, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs a debug message.
 
@@ -42,7 +42,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -53,7 +53,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.debug(payload, *args, **kwargs)
 
-    def warning(self, payload: object, *args, checkpoint_id: str|None = None,
+    def warning(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                 extra: dict = None, **kwargs):
         """Logs a warning message.
 
@@ -63,7 +63,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -74,7 +74,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.warning(payload, *args, **kwargs, extra=extra)
 
-    def error(self, payload: object, *args, checkpoint_id: str|None = None,
+    def error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs an error message.
 
@@ -84,7 +84,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -95,7 +95,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.error(payload, *args, **kwargs, extra=extra)
 
-    def critical(self, payload: object, *args, checkpoint_id: str|None = None,
+    def critical(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                  extra: dict = None, **kwargs):
         """Logs a critical error message.
 
@@ -105,7 +105,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -116,7 +116,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.critical(payload, *args, **kwargs, extra=extra)
 
-    def func_error(self, payload: object, *args, checkpoint_id: str|None = None,
+    def func_error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                    extra: dict = None, **kwargs):
         """Logs a function-related error message.
 
@@ -126,7 +126,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -137,7 +137,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.error(payload, *args, **kwargs, extra=extra)
 
-    def tech_error(self, payload: object, *args, checkpoint_id: str|None = None,
+    def tech_error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                    error: Exception = None, extra: dict = None, **kwargs):
         """Logs a technical error message, optionally including an exception.
 
@@ -147,7 +147,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         error : Exception, optional
             The exception to include in the log, by default None.
@@ -163,7 +163,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.critical(new_payload, *args, **kwargs, extra=extra)
 
-    def report_start_external(self, payload: object, *args, checkpoint_id: str|None = None,
+    def report_start_external(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                               extra: dict = None, **kwargs):
         """Logs the start of an external process or interaction.
 
@@ -173,7 +173,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
@@ -184,7 +184,7 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.info(payload, *args, **kwargs, extra=extra)
 
-    def report_end_external(self, payload: object, *args, checkpoint_id: str|None = None,
+    def report_end_external(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                             extra: dict = None, **kwargs):
         """Logs the end of an external process or interaction.
 
@@ -194,7 +194,7 @@ class ServiceTracerLogging(ServiceTracer):
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
-        checkpoint_id : str|None, optional
+        checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.

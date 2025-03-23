@@ -1,9 +1,9 @@
 """Module providing the AdaptHandler class for managing adapters in a
 domain-driven design (DDD) context."""
 
-from bisslog_core.adapters.blank_adapter import BlankAdapter
-from bisslog_core.domain_context import domain_context
-from bisslog_core.ports.tracing.service_tracer import ServiceTracer
+from ..adapters.blank_adapter import BlankAdapter
+from ..domain_context import domain_context
+from ..ports.tracing.service_tracer import ServiceTracer
 
 
 class AdaptHandler:

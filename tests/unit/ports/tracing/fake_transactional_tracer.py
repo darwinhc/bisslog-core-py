@@ -7,24 +7,24 @@ mock_transaction_manager = MagicMock()
 
 class FakeTransactionalTracer(TransactionalTracer):
 
-    def info(self, payload: object, *args, transaction_id: str|None = None,
-             checkpoint_id: str|None = None, **kwargs):
+    def info(self, payload: object, *args, transaction_id: Optional[str] = None,
+             checkpoint_id: Optional[str] = None, **kwargs):
         pass
 
-    def debug(self, payload: object, *args, transaction_id: str|None = None,
-              checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def debug(self, payload: object, *args, transaction_id: Optional[str] = None,
+              checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         pass
 
-    def warning(self, payload: object, *args, transaction_id: str|None = None,
-                checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def warning(self, payload: object, *args, transaction_id: Optional[str] = None,
+                checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         pass
 
-    def error(self, payload: object, *args, transaction_id: str|None = None,
-              checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def error(self, payload: object, *args, transaction_id: Optional[str] = None,
+              checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         pass
 
-    def critical(self, payload: object, *args, transaction_id: str|None = None,
-                 checkpoint_id: str|None = None, extra: dict = None, **kwargs):
+    def critical(self, payload: object, *args, transaction_id: Optional[str] = None,
+                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         pass
 
     def func_error(self, payload, *args, **kwargs):

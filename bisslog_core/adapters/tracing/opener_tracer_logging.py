@@ -1,8 +1,8 @@
 """Opener Tracer Logging."""
-
 import logging
+from typing import Optional
 
-from bisslog_core.ports.tracing.opener_tracer import OpenerTracer
+from ...ports.tracing.opener_tracer import OpenerTracer
 
 
 class OpenerTracerLogging(OpenerTracer):
@@ -16,7 +16,7 @@ class OpenerTracerLogging(OpenerTracer):
         self._logger = logging.getLogger("opener-logger")
 
     def start(self, *args, transaction_id: str, component: str,
-              super_transaction_id: str|None = None, **kwargs):
+              super_transaction_id: Optional[str] = None, **kwargs):
         """Logs the start of an operation.
 
         Parameters
@@ -27,7 +27,7 @@ class OpenerTracerLogging(OpenerTracer):
             The unique identifier for the transaction.
         component : str
             The component initiating the operation.
-        super_transaction_id : str|None, default=None
+        super_transaction_id : Optional[str], default=None
             The parent transaction ID, if applicable.
         kwargs : dict
             Keyword arguments"""
@@ -35,17 +35,17 @@ class OpenerTracerLogging(OpenerTracer):
         super_transaction_id = super_transaction_id or ''
         self._logger.debug(super_transaction_id, extra=extra)
 
-    def end(self, *args, transaction_id: str|None, component: str,
-            super_transaction_id: str|None, result: object = None):
+    def end(self, *args, transaction_id: Optional[str], component: str,
+            super_transaction_id: Optional[str], result: object = None):
         """Logs the end of an operation, including the result.
 
         Parameters
         ----------
-        transaction_id : str|None
+        transaction_id : Optional[str]
             The unique identifier for the transaction.
         component : str
             The component that completed the operation.
-        super_transaction_id : str|None
+        super_transaction_id : Optional[str]
             The parent transaction ID, if applicable.
         result : object, default=None
             The result of the operation, if available."""

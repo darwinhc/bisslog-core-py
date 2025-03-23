@@ -1,5 +1,5 @@
 """Module providing a blank adapter implementation."""
-from bisslog_core.adapters.base_adapter import BaseAdapter
+from .base_adapter import BaseAdapter
 
 
 class BlankAdapter(BaseAdapter):

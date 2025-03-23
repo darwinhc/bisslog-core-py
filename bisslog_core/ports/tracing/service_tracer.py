@@ -1,8 +1,9 @@
 """Module defining the ServiceTracer interface."""
 
 from abc import ABC, abstractmethod
+from typing import Optional
 
-from bisslog_core.ports.tracing.tracer import Tracer
+from .tracer import Tracer
 
 
 class ServiceTracer(Tracer, ABC):
@@ -17,7 +18,7 @@ class ServiceTracer(Tracer, ABC):
     - It does not define any concrete methods but serves as a structural base."""
 
     @abstractmethod
-    def info(self, payload: object, *args, checkpoint_id: str|None = None,
+    def info(self, payload: object, *args, checkpoint_id: Optional[str] = None,
              extra: dict = None, **kwargs):
         """Logs an informational message.
 
@@ -32,7 +33,7 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method info")
 
     @abstractmethod
-    def debug(self, payload: object, *args, checkpoint_id: str|None = None,
+    def debug(self, payload: object, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs a debug message.
 
@@ -47,7 +48,7 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method debug")
 
     @abstractmethod
-    def warning(self, payload: object, *args, checkpoint_id: str|None = None,
+    def warning(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                 extra: dict = None, **kwargs):
         """Logs a warning message.
 
@@ -62,7 +63,7 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method warning")
 
     @abstractmethod
-    def error(self, payload: object, *args, checkpoint_id: str|None = None,
+    def error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs an error message.
 
@@ -77,7 +78,7 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method error")
 
     @abstractmethod
-    def critical(self, payload: object, *args, checkpoint_id: str|None = None,
+    def critical(self, payload: object, *args, checkpoint_id: Optional[str] = None,
                  extra: dict = None, **kwargs):
         """Logs a critical error message.
 
