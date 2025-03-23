@@ -1,4 +1,4 @@
-from bisslog_core.use_cases.use_case_full import FullUseCase
+from bisslog.use_cases.use_case_full import FullUseCase
 
 
 class MySecondUseCase(FullUseCase):

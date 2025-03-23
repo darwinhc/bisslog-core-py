@@ -1,6 +1,6 @@
 from typing import Optional
 
-from bisslog_core.ports.tracing.tracer import Tracer
+from bisslog.ports.tracing.tracer import Tracer
 
 
 class FakeTracer(Tracer):

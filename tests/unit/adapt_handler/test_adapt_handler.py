@@ -1,8 +1,8 @@
 import pytest
 
-from bisslog_core.adapt_handler.adapt_handler import AdaptHandler
-from bisslog_core.adapters.blank_adapter import BlankAdapter
-from bisslog_core.domain_context import domain_context
+from bisslog.adapt_handler.adapt_handler import AdaptHandler
+from bisslog.adapters.blank_adapter import BlankAdapter
+from bisslog.domain_context import domain_context
 
 
 @pytest.fixture

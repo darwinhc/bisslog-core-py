@@ -1,7 +1,7 @@
 from typing import Optional
 from unittest.mock import MagicMock
 
-from bisslog_core.ports.upload_file import IUploadFile
+from bisslog.ports.upload_file import IUploadFile
 
 
 # Implementación de prueba para simular una clase concreta

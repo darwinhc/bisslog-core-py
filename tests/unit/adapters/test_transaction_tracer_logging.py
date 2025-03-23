@@ -1,7 +1,7 @@
 import logging
 import pytest
 
-from bisslog_core.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
+from bisslog.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
 
 
 @pytest.fixture

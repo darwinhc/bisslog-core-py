@@ -1,7 +1,7 @@
 from random import random
 
-from bisslog_core.database.bisslog_db import bisslog_db as db
-from bisslog_core.use_cases.use_case_full import FullUseCase
+from bisslog.database.bisslog_db import bisslog_db as db
+from bisslog.use_cases.use_case_full import FullUseCase
 from scripts.project_example_1.usecases.my_second_use_case import my_second_use_case
 
 

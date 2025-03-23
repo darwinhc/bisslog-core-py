@@ -2,8 +2,8 @@ import logging, sys
 
 from flask import Flask, request, abort
 
-from bisslog_core.adapters.tracing.logging_filter import BisslogFilterLogging
-from bisslog_core.database.bisslog_db import bisslog_db
+from bisslog.adapters.tracing.logging_filter import BisslogFilterLogging
+from bisslog.database.bisslog_db import bisslog_db
 from scripts.project_example_1.database.impls.session_division_cache import session_division_cache
 from scripts.project_example_1.usecases.my_first_use_case import sumar_use_case
 

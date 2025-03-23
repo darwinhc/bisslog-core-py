@@ -1,6 +1,6 @@
 import pytest
 
-from bisslog_core.adapters.blank_adapter import BlankAdapter
+from bisslog.adapters.blank_adapter import BlankAdapter
 from tests.unit.utils.fake_tracer import FakeTracer
 
 

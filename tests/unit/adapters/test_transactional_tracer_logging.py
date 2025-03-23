@@ -1,7 +1,7 @@
 import logging
 from unittest.mock import MagicMock, patch
 import pytest
-from bisslog_core.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
+from bisslog.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
 
 @pytest.fixture
 def tracer():

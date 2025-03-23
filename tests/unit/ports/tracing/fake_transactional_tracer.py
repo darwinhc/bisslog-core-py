@@ -1,7 +1,7 @@
 from typing import Optional
 from unittest.mock import MagicMock
 
-from bisslog_core.ports.tracing.transactional_tracer import TransactionalTracer
+from bisslog.ports.tracing.transactional_tracer import TransactionalTracer
 
 mock_transaction_manager = MagicMock()
 

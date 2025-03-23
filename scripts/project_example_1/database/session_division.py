@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from bisslog_core.database.division import Division
+from bisslog.database.division import Division
 
 
 class SessionDivision(Division, ABC):

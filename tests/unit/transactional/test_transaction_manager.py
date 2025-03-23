@@ -2,7 +2,7 @@ import pytest
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
-from bisslog_core.transactional.transaction_manager import transaction_manager
+from bisslog.transactional.transaction_manager import transaction_manager
 
 
 def create_and_get_transaction():

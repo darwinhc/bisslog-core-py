@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-from bisslog_core.use_cases.use_case_basic import BasicUseCase
+from bisslog.use_cases.use_case_basic import BasicUseCase
 from ..utils.fake_tracer import FakeTracer
 
 

@@ -1,6 +1,6 @@
 import logging, sys
 
-from bisslog_core.database.bisslog_db import bisslog_db
+from bisslog.database.bisslog_db import bisslog_db
 from .database.impls.session_division_cache import session_division_cache
 from .usecases.my_first_use_case import sumar_use_case
 
