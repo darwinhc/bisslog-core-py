@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Mostrar variables de entorno
         run: |
-          echo "COVERAGE_THRESHOLD=${{ vars.COVERAGE_THRESHOLD }}"
+          echo "COVERAGE_THRESHOLD=${{ vars.TEST_COVERAGE_THRESHOLD }}"
           echo "PYLINT_THRESHOLD=${{ vars.PYLINT_THRESHOLD }}"
-          echo "RADON_COMPLEXITY=${{ vars.RADON_COMPLEXITY }}"
+          echo "RADON_COMPLEXITY=${{ vars.RADON_THRESHOLD }}"
           echo "PYPI_API_TOKEN=${{ secrets.PYPI_API_TOKEN }}"
