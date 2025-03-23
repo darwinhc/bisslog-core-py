@@ -22,7 +22,7 @@ jobs:
         run: echo ${{ github.run_attempt }}
       - name: Output run version setup_tools_scm
         run: |
-          VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version(local_scheme='no-local-version'))")
+          VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version())")
           echo $VERSION
 
 
