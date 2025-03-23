@@ -20,6 +20,10 @@ jobs:
         run: echo ${{ github.run_number }}
       - name: Output Run Attempt
         run: echo ${{ github.run_attempt }}
+      - name: Output run version setup_tools_scm
+        run: |
+          VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version(local_scheme='no-local-version'))")
+          echo $VERSION
 
 
       - name: Determine version
