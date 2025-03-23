@@ -6,8 +6,15 @@ on:
       coverage_threshold:
         description: "Minimum percentage of coverage required"
         required: false
-        default: 85
-        type: string  # Cambiar de number a string para evitar errores
+        default: "85"
+        type: string
+  workflow_dispatch:
+    inputs:
+      coverage_threshold:
+        description: "Minimum percentage of coverage required"
+        required: false
+        default: "85"
+        type: string
 
 jobs:
   test:
