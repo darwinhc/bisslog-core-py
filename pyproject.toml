@@ -4,10 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bisslog"
-version = "0.0.1"
+dynamic = ["version"]
 description = "Business logic core (bisslog-core) - A lightweight and dependency-free implementation of Hexagonal Architecture (Ports and Adapters) in Python."
 readme = "README.md"
-license-files = ["LICENSE"]
 authors = [
     {name = "Darwin Stiven Herrera Cartagena", email = "darwinsherrerac@gmail.com"}
 ]
@@ -23,7 +22,3 @@ Homepage = "https://github.com/darwinhc/bisslog-core-py"
 
 [tool.setuptools.packages.find]
 include = ["bisslog", "bisslog.*"]
-
-[tool.setuptools_scm]
-version_scheme = "release-branch"
-local_scheme = "no-local-version"
