@@ -22,3 +22,6 @@ Homepage = "https://github.com/darwinhc/bisslog-core-py"
 
 [tool.setuptools.packages.find]
 include = ["bisslog", "bisslog.*"]
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"
