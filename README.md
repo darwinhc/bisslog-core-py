@@ -1,17 +1,101 @@
-# bisslog-core-py
+# Business logic core for python (bisslog-core-py)
 
-Business logic core (bisslog-core) - This library provides a lightweight and dependency-free implementation of
-Hexagonal Architecture (Ports and Adapters) in Python. It enforces a strict
-separation between domain logic, application, and infrastructure, allowing easy integration with different frameworks and external services without modifying core business logic.
+[![PyPI](https://img.shields.io/pypi/v/bisslog)](https://pypi.org/project/bisslog/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-It is an auxiliary library for the business layer or service domain, which allows to have a common language for operations when interacting with external components that are part of the infrastructure of the same. In other words, the business rules will not change if the architect decided to change the messaging system, it does not matter. The essential point of this library is that the domain should not change because some adapter changed.
+**bisslog-core** is a lightweight and dependency-free Python library that implements the **Hexagonal Architecture (Ports and Adapters)**.  
+It enforces a strict separation between **domain logic, application, and infrastructure**, allowing easy integration with different frameworks and external services without modifying core business logic.
+
+This library serves as an **auxiliary layer for business logic or service domain**, providing a **common language** for operations when interacting with external components.  
+In other words, the **business rules remain unchanged** even if the infrastructure changes (e.g., switching the messaging system).  
+The key principle is:  
+> **"The domain should not change because some adapter changed."**
+
+It is designed for **backend functionality**, **framework-agnostic development**, and to **minimize migration costs**.
+
+---
+
+## 🚀 Installation
+You can install `bisslog-core` using **pip**:
+
+```bash
+pip install bisslog
+```
+
+## Usage Example
 
 
-It is to create functionalities in the backend, without dependencies and based on use cases. Minimize the cost of a possible migration to another web framework. 
+Here is an example of what the implementation of a use case looks like without importing any additional dependencies.
 
 
+Note: if the adapter is not implemented it will give execution attempt messages.
 
-## Tests
+~~~python
+from random import random
+
+from bisslog.database.bisslog_db import bisslog_db as db
+from bisslog.use_cases.use_case_full import FullUseCase
+from scripts.project_example_1.usecases.my_second_use_case import my_second_use_case
+
+
+class SumarUseCase(FullUseCase):
+
+    def use(self, a: int, b: int, user_id: int, transaction_id: str, *args, **kwargs) -> dict:
+        component = self._transaction_manager.get_component()
+        self.log.info("Se recibe a:%d b:%d %s", a, b, component, checkpoint_id="reception",
+                      transaction_id=transaction_id)
+
+        # Retrieve last session
+        last_session = db.session.get_last_session_user(user_id)
+        if last_session is not None:
+            self.log.info(f"La última sesión del usuario {user_id} fue {last_session}", checkpoint_id="last_session")
+
+        db.session.save_new_session_user(user_id)
+
+        db.event_type.loadWebhookEventType(5)
+        rand = random()
+        new_value = my_second_use_case(value=rand*10, product_type="string2", transaction_id=transaction_id)
+
+        # Calculate result
+        res = a + b
+        if res > 10:
+            self.log.warning("Es mayor que 10", checkpoint_id="check-response")
+
+        # Publish event
+        self.publish("queue_suma", {"suma": res + new_value, "operation": "a + b"})
+        return {"suma": res}
+
+
+sumar_use_case = SumarUseCase("sumar")
+~~~
+
+
+For the configuration of the entry-points or primary libraries, they will only have to call the corresponding use case and map the fields. Here is an example with flask.
+
+
+~~~python
+from typing import Annotated
+
+from fastapi import FastAPI, Header, HTTPException
+
+from scripts.project_example_1.usecases.my_first_use_case import sumar_use_case
+
+app = FastAPI()
+
+@app.get("/fast-api-example/first-use-case/{a}/{b}")
+async def get_user(a: str, b: str,
+                   user_id: Annotated[str | None, Header()]):
+    print(a, b, user_id)
+    if user_id is None:
+        raise HTTPException(status_code=400, detail="user_id is required")
+    res = sumar_use_case(int(a), int(b), int(user_id))
+    res["identifier"] = "fast-api"
+    return res
+
+~~~
+
+
+## 🧪 Running library tests
 
 To Run test with coverage
 ~~~cmd
@@ -23,3 +107,10 @@ To generate report
 ~~~cmd
 coverage html && open htmlcov/index.html
 ~~~
+
+
+📜 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICEN📜 License
+
+This project is licensed under the MIT License. See the LICENSE file for details.SE) file for details.
