@@ -2,6 +2,10 @@ name: Analyze new changes
 
 on:
   push:
+    paths:
+      - 'feature/**'
+      - 'fix/**'
+      - 'hotfix/**'
   workflow_call:
 
 jobs:
