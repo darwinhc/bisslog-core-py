@@ -8,20 +8,8 @@ on:
       - "bisslog/**"  # Se ejecuta solo si hay cambios en bisslog/
 
 jobs:
-  run-tests:
-    uses: darwinhc/bisslog-core-py/.github/workflows/pytest.yml@master
-    with:
-      coverage_threshold: ${{ vars.TEST_COVERAGE_THRESHOLD }}
-
-  run-linter:
-    uses: darwinhc/bisslog-core-py/.github/workflows/pylint.yml@master
-    with:
-      pylint_threshold: ${{ vars.PYLINT_THRESHOLD }}
-
-  run-complexity:
-    uses: darwinhc/bisslog-core-py/.github/workflows/radon.yml@master
-    with:
-      radon_threshold: ${{ vars.RADON_THRESHOLD }}
+  run-changes-reception:
+    uses: darwinhc/bisslog-core-py/.github/workflows/receive-changes.yml@master
 
   determine-version:
     runs-on: ubuntu-latest
@@ -47,7 +35,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [run-tests, run-linter, run-complexity, determine-version]
+    needs: [run-changes-reception, determine-version]
 
     steps:
       - name: Checkout code

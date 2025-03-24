@@ -33,7 +33,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [run-tests, run-linter, run-complexity, determine-version]
+    needs: [run-changes-reception, determine-version]
 
     steps:
       - name: Checkout code
