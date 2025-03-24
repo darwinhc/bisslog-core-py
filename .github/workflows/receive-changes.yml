@@ -2,6 +2,8 @@ name: Analyze new changes
 
 on:
   push:
+  workflow_call:
+
 jobs:
   run-tests:
     uses: darwinhc/bisslog-core-py/.github/workflows/pytest.yml@master
