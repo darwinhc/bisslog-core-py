@@ -105,7 +105,7 @@ Definition of possible interfaces of divisions needed by the database, if not, i
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from bisslog.database.division import Division
+from bisslog.adapters.division import Division
 
 
 class SessionDivision(Division, ABC):

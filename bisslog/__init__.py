@@ -28,7 +28,7 @@ from .adapt_handler.file_uploader_handler import bisslog_upload_file, UploadFile
 from .adapt_handler.notifier_handler import bisslog_notifier, NotifierHandler
 from .adapt_handler.publisher_handler import bisslog_pubsub, PublisherHandler
 from .database.bisslog_db import bisslog_db, BissLogDB
-from .database.division import Division
+from bisslog.adapters.division import Division
 from .domain_context import DomainContext, domain_context
 from .transactional.transaction_manager import transaction_manager
 from .use_cases.use_case_base import UseCaseBase
