@@ -164,6 +164,4 @@ coverage html && open htmlcov/index.html
 
 📜 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICEN📜 License
-
-This project is licensed under the MIT License. See the LICENSE file for details.SE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
