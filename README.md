@@ -95,6 +95,59 @@ async def get_user(a: str, b: str,
 ~~~
 
 
+Definition of possible interfaces of divisions needed by the database, if not, it does not matter.
+
+~~~python
+from abc import ABC, abstractmethod
+from typing import Optional
+
+from bisslog.database.division import Division
+
+
+class SessionDivision(Division, ABC):
+
+    @abstractmethod
+    def save_new_session_user(self, user_identifier: int) -> None:
+        raise NotImplementedError("save_new_session_user not implemented")
+
+    @abstractmethod
+    def get_last_session_user(self, user_identifier: int) -> Optional[dict]:
+        raise NotImplementedError("get_last_session_user not implemented")
+
+~~~
+
+The following is a dummie implementation of the above division to give an example
+
+~~~python
+import uuid
+from datetime import datetime, timezone
+from typing import Optional
+
+from scripts.project_example_1.database.session_division import SessionDivision
+
+
+cache_db = {"session": []}
+
+class SessionDivisionCache(SessionDivision):
+
+    def get_last_session_user(self, user_identifier: int) -> Optional[dict]:
+
+        user_sessions = [session for session in cache_db["session"]
+                         if session["user"] == user_identifier]
+        if not user_sessions:
+            return None
+        return user_sessions[-1]
+
+
+    def save_new_session_user(self, user_identifier: int) -> None:
+        cache_db["session"].append({"user": user_identifier, "id": uuid.uuid4().hex,
+                                    "created_at": datetime.now(timezone.utc)})
+
+session_division_cache = SessionDivisionCache()
+
+~~~
+
+
 ## 🧪 Running library tests
 
 To Run test with coverage
