@@ -12,31 +12,45 @@ class MappingGroup:
     other"""
 
     def __init__(self, container, resources=None):
-        # Checks
-        target_keys = []
-        buffer_input = None
-        buffer_output = None
         if not container:
             raise ValueError(ERROR["no-container"])
+
+        self._container = container
+        self._resources = resources or {}
+        self._validate_mappers(container)
+        self._check_duplicate_targets(container)
+
+    @staticmethod
+    def _validate_mappers(container):
+        """Checks the mappers in container"""
+        buffer_input = None
+        buffer_output = None
+
         for mapper in container:
             if not isinstance(mapper, Mapper):
                 raise ValueError(f'{mapper} is not a mapper')
+
             if buffer_output and buffer_output != mapper.output_type:
                 raise ValueError(ERROR['output-differs'] +
                                  f" {buffer_output} != {mapper.output_type}")
             if buffer_input and buffer_input != mapper.input_type:
                 raise ValueError(ERROR['input-differs'] +
                                  f" {buffer_input} != {mapper.input_type}")
-            if buffer_input is None:
-                buffer_input = mapper.input_type
-            if buffer_output is None:
-                buffer_output = mapper.output_type
-            for _, value in mapper.base.items():
+
+            buffer_input = buffer_input or mapper.input_type
+            buffer_output = buffer_output or mapper.output_type
+
+    @staticmethod
+    def _check_duplicate_targets(container):
+        """Checks if the duplicate keys on mappers values"""
+        target_keys = set()
+
+        for mapper in container:
+            for value in mapper.base.values():
                 if value in target_keys:
                     raise ValueError(ERROR["target-dup"])
-                target_keys.append(value)
-        self._container = container
-        self._resources = resources or {}
+                target_keys.add(value)
+
 
     def map(self, data):
         """Map data with multiple mappers"""

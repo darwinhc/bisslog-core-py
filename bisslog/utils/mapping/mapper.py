@@ -23,6 +23,29 @@ class Mapper(IArranger):
     def __init__(self, name: str, base: dict, input_type: str = "dict", output_type: str = "dict",
                  *, resources: dict = None, **kwargs):
         super().__init__()
+        self._format_base(base)
+
+        self._name = name
+        self._input_type = input_type
+        self._output_type = output_type
+        self._resources = resources or {}
+        self._separator = kwargs.get('separator') or self.default_separator
+        self._path_naming = kwargs.get('path_naming') or self._default_path_naming
+        self.__format = "dict" if isinstance(base, dict) else "list"
+
+        self._base = self._replace_paths(base)
+
+    def _replace_paths(self, base):
+        """Reemplaza los paths en base a los recursos sin repetir cálculos."""
+        if isinstance(base, dict):
+            return {new_k: new_v for k, v in base.items()
+                    for new_k, new_v in self.__check_resources_and_replace(k, v)}
+
+        return [{"from": new_k, "to": new_v} for obj in base
+                for new_k, new_v in self.__check_resources_and_replace(obj["from"], obj["to"])]
+
+    def _format_base(self, base):
+        """Verifica y formatea la base inicial."""
         if isinstance(base, dict):
             for key, value in base.items():
                 self.__check_source_target(key, value)
@@ -31,34 +54,6 @@ class Mapper(IArranger):
                 self.__check_source_target(obj.get("from"), obj.get("to"))
         else:
             raise TypeError(ERRORS["base-type-error"])
-
-        self._name = name
-        self._input_type = input_type
-        self._output_type = output_type
-        self._resources = resources or {}
-        self._separator = kwargs.get('separator') or self.default_separator
-        self._path_naming = kwargs.get('path_naming') or self._default_path_naming
-        if isinstance(base, dict):
-            self.__format = "dict"
-        else:
-            self.__format = "list"
-
-        if isinstance(base, dict):  # base as dict
-            base_copy = base.copy()
-            for path_source, path_target in base_copy.items():
-                new_path_source, new_path_target = self.__check_resources_and_replace(path_source,
-                                                                                  path_target)
-                del base[path_source]
-                base[new_path_source] = new_path_target
-        else:  # base as list
-            base_copy = base.copy()
-            for i, obj in enumerate(base_copy):
-                path_source, path_target = obj["from"], obj["to"]
-                new_path_source, new_path_target = self.__check_resources_and_replace(path_source,
-                                                                                  path_target)
-                base[i]["from"] = new_path_source
-                base[i]["to"] = new_path_target
-        self._base = base
 
     @staticmethod
     def __check_source_target(source, target):
@@ -97,7 +92,7 @@ class Mapper(IArranger):
                 self._path_naming + "." +  key, self._resources[key])
         if self._path_naming in new_path_source or self._path_naming in new_path_target:
             raise ValueError(ERRORS["path-naming-incorrect"])
-        return new_path_source, new_path_target
+        yield new_path_source, new_path_target
 
     @property
     def base(self) -> dict:

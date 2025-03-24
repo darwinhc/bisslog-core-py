@@ -14,6 +14,21 @@ class IArranger(ABC):
     arrangeData("", dtype="number", defaultValue=100) -> 100
     arrangeData("", dtype="number") -> None
     """
+
+    datetime_processors = {
+        "iso": lambda x: x.isoformat(),
+        "year": lambda x: x.year,
+        "day": lambda x: x.day,
+        "month": lambda x: x.month,
+        "weekday": lambda x: x.weekday(),
+        "hour": lambda x: x.hour,
+        "minute": lambda x: x.minute,
+        "timestamp": lambda x: x.timestamp(),
+        "time": lambda x: x.time(),
+        "date": lambda x: x.date(),
+        "fold": lambda x: x.fold,
+    }
+
     def __init__(self):
         self.__processors = {
             # datetime
@@ -38,6 +53,23 @@ class IArranger(ABC):
         }
 
     @staticmethod
+    def process_datetime_when_is_string(value, date_format = "iso") -> Optional[datetime]:
+        res = None
+        if date_format == "iso":
+            try:
+                res = datetime.fromisoformat(value)
+            except ValueError:
+                pass  # res = None
+        elif date_format == "timestamp" and value.replace(".", "", 1).isdigit():
+            res = datetime.fromtimestamp(float(value))
+        else:
+            try:
+                res = datetime.strptime(value, date_format)
+            except ValueError:
+                pass
+        return res
+
+    @staticmethod
     def __process_datetime(value, date_format="iso", default_value=None, transform=None, *_, **__):
         """Valid and formats if possible the value in a datetime as handled by events,
         otherwise returns None
@@ -57,45 +89,12 @@ class IArranger(ABC):
         elif isinstance(value, (float, int)):
             res = datetime.fromtimestamp(value)
         elif isinstance(value, str):
-            if date_format == "iso":
-                try:
-                    res = datetime.fromisoformat(value)
-                except ValueError:
-                    pass # res = None
-            elif date_format == "timestamp" and value.replace(".", "", 1).isdigit():
-                res = datetime.fromtimestamp(float(value))
-            else:
-                try:
-                    res = datetime.strptime(value, date_format)
-                except ValueError:
-                    pass
+            res = IArranger.process_datetime_when_is_string(value, date_format)
         elif default_value == "now":
             res = datetime.now()
 
-
         if transform is not None and isinstance(res, datetime):
-            if transform == "iso":
-                res = res.isoformat()
-            elif transform == "year":
-                res = res.year
-            elif transform == "day":
-                res = res.day
-            elif transform == "month":
-                res = res.month
-            elif transform == "weekday":
-                res = res.weekday()
-            elif transform == "hour":
-                res = res.hour
-            elif transform == "minute":
-                res = res.minute
-            elif transform == "timestamp":
-                res = res.timestamp()
-            elif transform == "time":
-                res = res.time()
-            elif transform == "date":
-                res = res.date()
-            elif transform == "fold":
-                res = res.fold
+            res = IArranger.datetime_processors.get(transform, lambda x: x)(res)
         elif isinstance(res, datetime):
             res = res.timestamp()
         return res
