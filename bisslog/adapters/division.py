@@ -2,8 +2,10 @@
 
 from abc import ABC
 
+from ..transactional.transaction_traceable import TransactionTraceable
 
-class Division(ABC):
+
+class Division(TransactionTraceable, ABC):
     """Abstract base class for external dependency division operations.
 
     This class defines a set of methods associated with a collection or table
