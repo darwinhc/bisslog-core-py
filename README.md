@@ -13,6 +13,10 @@ The key principle is:
 
 It is designed for **backend functionality**, **framework-agnostic development**, and to **minimize migration costs**.
 
+
+![image-explanation](docs/explanation.jpg)
+
+
 ---
 
 ## 🚀 Installation
