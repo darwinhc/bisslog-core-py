@@ -1,8 +1,11 @@
 name: Deploy to TestPyPI and PyPI
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - qa
+    paths:
+      - "bisslog/**"  # Se ejecuta solo si hay cambios en bisslog/
 
 jobs:
   run-tests:
@@ -39,7 +42,6 @@ jobs:
         id: set-version
         run: |
           VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version(version_scheme='post-release', local_scheme='no-local-version'))")
-          VERSION=$(echo "$VERSION" | sed -E 's/\.post([0-9]+)/.\1.${{ github.run_number }}/')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
@@ -71,8 +73,15 @@ jobs:
         env:
           SETUPTOOLS_SCM_PRETEND_VERSION: ${{ needs.determine-version.outputs.version }}
 
-      - name: Publish to PyPI
+      - name: Publish to TestPyPI
         env:
           TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: twine upload dist/*
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        run: twine upload --skip-existing --verbose --repository testpypi dist/*
+
+      - name: Install from TestPyPI to verify
+        run: |
+          python -m venv test_env
+          source test_env/bin/activate
+          python -m pip install --index-url https://test.pypi.org/simple/ --no-deps bisslog
+          deactivate
