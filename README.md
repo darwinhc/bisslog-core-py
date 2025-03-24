@@ -70,7 +70,7 @@ sumar_use_case = SumarUseCase("sumar")
 ~~~
 
 
-For the configuration of the entry-points or primary libraries, they will only have to call the corresponding use case and map the fields. Here is an example with flask.
+For the configuration of the entry-points or primary libraries, they will only have to call the corresponding use case and map the fields. Here is an example with FastAPI. [More examples](scripts/project_example_1/)
 
 
 ~~~python
