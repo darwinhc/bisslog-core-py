@@ -1,4 +1,4 @@
-name: Deploy to PyPI
+name: Analyze new changes
 
 on:
   push:
