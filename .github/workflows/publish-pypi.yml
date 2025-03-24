@@ -39,10 +39,8 @@ jobs:
       - name: Determine version for TestPyPI
         id: set-version
         run: |
-          VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version())")
-          if [ "${{ github.event_name }}" != "release" ]; then
-            VERSION="$VERSION.${{ github.run_number }}"
-          fi
+          VERSION=$(python -c "import setuptools_scm; print(setuptools_scm.get_version(version_scheme='post-release', local_scheme='no-local-version'))")
+          MODIFIED_VERSION=$(echo "$VERSION" | sed -E 's/\.post([0-9]+)/.\1.${{ github.run_number }}/')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
