@@ -1,11 +1,17 @@
 name: Deploy to TestPyPI
 
 on:
+  pull_request:
+    branches:
+      - qa
+    paths:
+      - "bisslog/**"
+
   push:
     branches:
       - qa
     paths:
-      - "bisslog/**"  # Se ejecuta solo si hay cambios en bisslog/
+      - "bisslog/**"
 
 jobs:
   run-changes-reception:

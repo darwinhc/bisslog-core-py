@@ -8,6 +8,11 @@ on:
         required: false
         default: "80"
         type: string
+      target_folder:
+        description: "Directory to be scanned by the linter."
+        required: false
+        type: string
+        default: "bisslog"
   workflow_dispatch:
     inputs:
       coverage_threshold:
@@ -15,6 +20,11 @@ on:
         required: false
         default: "80"
         type: string
+      target_folder:
+        description: "Directory to be scanned by the linter."
+        required: false
+        type: string
+        default: "bisslog"
 
 jobs:
   test:
@@ -42,4 +52,4 @@ jobs:
       - name: Run Tests with Coverage
         run: |
           COV_THRESHOLD=${{ inputs.coverage_threshold }}  # Convertir a variable de shell
-          pytest --cov=bisslog --cov-report=term --cov-fail-under=$COV_THRESHOLD tests/
+          pytest --cov=$${{ inputs.target_folder }} --cov-report=term --cov-fail-under=$COV_THRESHOLD tests/
