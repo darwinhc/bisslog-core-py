@@ -7,14 +7,24 @@ on:
         description: "Minimum pylint quality score required"
         required: false
         default: "9.0"
-        type: string  # GitHub Actions trata los inputs como strings
+        type: string
+      target_folder:
+        description: "Directory to be scanned by the linter."
+        required: false
+        type: string
+        default: "bisslog"
   workflow_dispatch:
     inputs:
       pylint_threshold:
         description: "Mínimo puntaje de calidad requerido"
         required: false
         default: "9.0"
-        type: string  # GitHub Actions trata los inputs como strings
+        type: string
+      target_folder:
+        description: "Directory to be scanned by the linter."
+        required: false
+        type: string
+        default: "bisslog"
 
 jobs:
   lint:
@@ -37,7 +47,7 @@ jobs:
 
       - name: Run Pylint
         run: |
-          SCORE=$(pylint bisslog --fail-under=${{ inputs.pylint_threshold }} | tee pylint_output.txt | grep -oP '(?<=rated at )\d+\.\d+' | tail -1)
+          SCORE=$(pylint ${{ inputs.target_folder }} --fail-under=${{ inputs.pylint_threshold }} | tee pylint_output.txt | grep -oP '(?<=rated at )\d+\.\d+' | tail -1)
           
           echo "Pylint Score: $SCORE"
           

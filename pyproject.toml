@@ -25,3 +25,13 @@ include = ["bisslog", "bisslog.*"]
 [tool.setuptools_scm]
 version_scheme = "post-release"
 local_scheme = "no-local-version"
+
+
+[project.optional-dependencies]
+aws-lambda = ["requirements/aws-lambda.txt"]
+encryption = ["requirements/encryption.txt"]
+gssapi = ["requirements/gssapi.txt"]
+ocsp = ["requirements/ocsp.txt"]
+snappy = ["requirements/snappy.txt"]
+test = ["requirements/test.txt"]
+zstd = ["requirements/zstd.txt"]
