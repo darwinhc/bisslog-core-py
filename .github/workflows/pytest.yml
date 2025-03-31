@@ -52,4 +52,4 @@ jobs:
       - name: Run Tests with Coverage
         run: |
           COV_THRESHOLD=${{ inputs.coverage_threshold }}  # Convertir a variable de shell
-          pytest --cov=$${{ inputs.target_folder }} --cov-report=term --cov-fail-under=$COV_THRESHOLD tests/
+          pytest --cov=${{ inputs.target_folder }} --cov-report=term --cov-fail-under=$COV_THRESHOLD tests/
