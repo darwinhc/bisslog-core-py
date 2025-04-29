@@ -48,6 +48,15 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov
+      - name: Install dependencies if requirements folder exists
+        run: |
+          if [ -d "requirements" ] && [ "$(ls -A requirements)" ]; then
+            for req_file in requirements/*.txt; do
+              pip install -r $req_file
+            done
+          else
+            echo "No requirements folder or files found. Skipping dependency installation."
+          fi
 
       - name: Run Tests with Coverage
         run: |
