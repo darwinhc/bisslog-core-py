@@ -1,37 +1,56 @@
-import logging
-from unittest.mock import MagicMock, patch
 import pytest
 from bisslog.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
 
+
 @pytest.fixture
 def tracer():
+    """Returns an instance of TransactionalTracerLogging."""
     return TransactionalTracerLogging()
 
-@pytest.fixture
-def mock_logger(tracer):
-    tracer._logger = MagicMock()
-    return tracer._logger
 
-@pytest.mark.parametrize("method, log_level", [
-    ("info", "info"),
-    ("debug", "debug"),
-    ("warning", "warning"),
-    ("error", "error"),
-    ("critical", "critical"),
-    ("func_error", "error"),
-    ("tech_error", "critical"),
-    ("report_start_external", "info"),
-    ("report_end_external", "info"),
+@pytest.mark.parametrize("method, level", [
+    ("debug", "DEBUG"),
+    ("info", "INFO"),
+    ("warning", "WARNING"),
+    ("error", "ERROR"),
+    ("critical", "CRITICAL"),
+    ("func_error", "ERROR"),
+    ("tech_error", "CRITICAL"),
+    ("report_start_external", "INFO"),
+    ("report_end_external", "INFO"),
 ])
-def test_logging_methods(tracer, mock_logger, method, log_level):
-    payload = "Test log message"
-    transaction_id = "tx-123"
-    checkpoint_id = "chk-456"
-    extra = {"key": "value"}
+@pytest.mark.parametrize("payload", [
+    ("plain string",),
+    ("plain string with params %s", "Hello"),
+    (42,),
+    ({"key": "value"},),
+    (["a", "b", "c"],),
+    (Exception("something went wrong"),),
+    (object(),),
+])
+def test_logging_payloads(tracer, caplog, method, level, payload):
+    """Tests all log levels with various payload types."""
+    log_func = getattr(tracer, method)
 
-    with patch.object(tracer, "_re_args_with_main", return_value={"transaction_id": transaction_id, "checkpoint_id": checkpoint_id}):
-        getattr(tracer, method)(payload, transaction_id=transaction_id, checkpoint_id=checkpoint_id, extra=extra)
+    with caplog.at_level(level):
+        if method == "tech_error":
+            log_func(*payload, error=ValueError("test exception"), transaction_id="tx123", checkpoint_id="cp456")
+        else:
+            log_func(*payload, transaction_id="tx123", checkpoint_id="cp456")
 
-    expected_extra = {"transaction_id": transaction_id, "checkpoint_id": checkpoint_id, **extra}
-    log_method = getattr(mock_logger, log_level)
-    log_method.assert_called_once_with(payload, extra=expected_extra)
+    # Confirm that something was logged
+    assert len(caplog.records) > 0
+    last_record = caplog.records[-1]
+    assert last_record.levelname == level
+    assert "tx123" in last_record.__dict__.get("extra", {}) or last_record.__dict__.get("transaction_id") == "tx123"
+    assert "cp456" in last_record.__dict__.get("extra", {}) or last_record.__dict__.get("checkpoint_id") == "cp456"
+    assert str(payload[0]).split()[0] in last_record.message
+
+
+def test_tech_error_with_exception_stringified(tracer, caplog):
+    """Ensures tech_error logs exception details."""
+    with caplog.at_level("CRITICAL"):
+        tracer.tech_error("Error occurred", error=RuntimeError("fail!"), transaction_id="txid")
+
+    assert any("fail!" in record.message for record in caplog.records)
+    assert any("Error occurred" in record.message for record in caplog.records)
