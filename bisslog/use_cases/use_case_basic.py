@@ -117,11 +117,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
         if super_transaction_id is None:
             super_transaction_id = transaction_id
 
-        try:
-            res = self.use(*args, transaction_id=transaction_id, **kwargs)
-        except BaseException as error:
-            self.log.tech_error(transaction_id, "use-case-base-catcher", error=error)
-            raise
+        res = self.use(*args, transaction_id=transaction_id, **kwargs)
         self.__end(transaction_id=transaction_id,
                    super_transaction_id=super_transaction_id, result=res)
         return res
