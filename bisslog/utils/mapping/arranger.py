@@ -89,8 +89,8 @@ class IArranger(ABC):
         return res
 
     @staticmethod
-    def __process_datetime(value, *, date_format="iso", default_value=None,
-                           transform=None, **__) -> Optional[Any]:
+    def __process_datetime(value, date_format="iso", default_value=None,
+                           transform=None, *_, **__) -> Optional[Any]:
         """Processes a datetime input, applying formatting or transformations if needed.
 
         Parameters
@@ -222,7 +222,7 @@ class IArranger(ABC):
         """
         return value
 
-    def arrange_value(self, value, *args, dtype: str = "-", default_value=None, **kwargs) -> Any:
+    def arrange_value(self, value, dtype: str= "-", default_value=None, *args, **kwargs) -> Any:
         """Processes and transforms a primitive value based on type.
 
         Parameters
