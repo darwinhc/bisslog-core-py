@@ -1,4 +1,8 @@
-"""Implementation of the primitive data arranger"""
+"""Implementation of the primitive data arranger.
+
+Provides an interface and default implementation for transforming raw primitive input values
+into typed representations, including support for common types like strings, numbers, and dates."""
+
 import re
 from datetime import datetime
 from abc import ABC
@@ -6,7 +10,7 @@ from typing import Optional, Any
 
 
 class IArranger(ABC):
-    """Arranger interface in charge of processing primitive data by type
+    """Arranger interface in charge of processing primitive data by type.
 
     Example
     -------
@@ -30,6 +34,7 @@ class IArranger(ABC):
     }
 
     def __init__(self):
+        """Initializes the arranger with internal type processors."""
         self.__processors = {
             # datetime
             "datetime": self.__process_datetime,
@@ -53,13 +58,27 @@ class IArranger(ABC):
         }
 
     @staticmethod
-    def process_datetime_when_is_string(value, date_format = "iso") -> Optional[datetime]:
+    def process_datetime_when_is_string(value, date_format="iso") -> Optional[datetime]:
+        """Converts a string to a datetime object using the given format.
+
+        Parameters
+        ----------
+        value : str
+            The string representing a date or timestamp.
+        date_format : str, optional
+            The format to interpret the string, by default "iso".
+
+        Returns
+        -------
+        Optional[datetime]
+            A datetime object if successfully parsed, else None.
+        """
         res = None
         if date_format == "iso":
             try:
                 res = datetime.fromisoformat(value)
             except ValueError:
-                pass  # res = None
+                pass
         elif date_format == "timestamp" and value.replace(".", "", 1).isdigit():
             res = datetime.fromtimestamp(float(value))
         else:
@@ -70,18 +89,25 @@ class IArranger(ABC):
         return res
 
     @staticmethod
-    def __process_datetime(value, date_format="iso", default_value=None, transform=None, *_, **__):
-        """Valid and formats if possible the value in a datetime as handled by events,
-        otherwise returns None
+    def __process_datetime(value, *, date_format="iso", default_value=None,
+                           transform=None, **__) -> Optional[Any]:
+        """Processes a datetime input, applying formatting or transformations if needed.
 
         Parameters
         ----------
-        value: object
-            expected to be of type datetime
+        value : object
+            The value to convert to datetime.
+        date_format : str, optional
+            Format to interpret strings, by default "iso".
+        default_value : object, optional
+            Value to return if parsing fails or value is None.
+        transform : str, optional
+            A datetime attribute to extract (e.g., "year", "timestamp").
 
         Returns
         -------
-        datetime: Object datetime
+        Optional[Any]
+            A datetime, transformed value, or timestamp; None if invalid.
         """
         res = None
         if isinstance(value, datetime):
@@ -100,18 +126,20 @@ class IArranger(ABC):
         return res
 
     @staticmethod
-    def __process_enum(value, enum, *_, **__):
-        """Valid and formats if possible the value in a datetime as handled by events,
-        otherwise returns None
+    def __process_enum(value, enum, *_, **__) -> Optional[Any]:
+        """Validates if a value is a member of the provided enum.
 
         Parameters
         ----------
-        value: object
-            expected to be of type enum
+        value : object
+            Value to check.
+        enum : iterable
+            Collection of valid enum values.
 
         Returns
         -------
-        object: Object on enum
+        Optional[Any]
+            The original value if valid, otherwise None.
         """
         if value in enum:
             return value
@@ -119,33 +147,33 @@ class IArranger(ABC):
 
     @staticmethod
     def __process_string(value, *_, **__) -> str:
-        """Valid and formats if possible the value in a string as handled by events,
-        otherwise returns None
+        """Casts the value to a string.
 
         Parameters
         ----------
-        value: object
-            expected to be of type string
+        value : object
+            Value to convert.
 
         Returns
         -------
-        str: Object string
+        str
+            String representation of the input.
         """
         return str(value)
 
     @staticmethod
     def __process_integer(value, *_, **__) -> Optional[int]:
-        """Valid and formats if possible the value in an integer as handled by events,
-        otherwise returns None
+        """Converts the input to an integer if possible.
 
         Parameters
         ----------
-        value: object
-            expected to be of type integer
+        value : object
+            Value to convert.
 
         Returns
         -------
-        str, optional: Object integer
+        Optional[int]
+            Integer value, or None if invalid.
         """
         if isinstance(value, int):
             return value
@@ -156,17 +184,17 @@ class IArranger(ABC):
 
     @staticmethod
     def __process_number(value, *_, **__) -> Optional[float]:
-        """Valid and formats if possible the value in an integer as handled by events,
-        otherwise returns None
+        """Converts the input to a float if possible.
 
         Parameters
         ----------
-        value: object
-            expected to be of type integer
+        value : object
+            Value to convert.
 
         Returns
         -------
-        str, optional: Object integer
+        Optional[float]
+            Float or integer value, or None if invalid.
         """
         if isinstance(value, (int, float)):
             return value
@@ -178,36 +206,38 @@ class IArranger(ABC):
         return None
 
     @staticmethod
-    def __process_not_type(value, *_, **__):
-        """Valid and formats if possible the value in an integer as handled by events,
-        otherwise returns None
+    def __process_not_type(value, *_, **__) -> Any:
+        """
+        Passes the value through unmodified.
 
         Parameters
         ----------
-        value: object
-            expected to be of non type
+        value : object
+            Value to return.
 
         Returns
         -------
-        str, optional: same object as value
+        Any
+            Same as input value.
         """
         return value
 
-    def arrange_value(self, value, dtype: str= "-", default_value=None, *args, **kwargs) -> Any:
-        """Organizes a value according to type and prevents it from remaining as a None.
+    def arrange_value(self, value, *args, dtype: str = "-", default_value=None, **kwargs) -> Any:
+        """Processes and transforms a primitive value based on type.
 
         Parameters
         ----------
-        value: object
-            Value with primitive payload
-        dtype: str, optional
-            Valid data type
-        default_value: object
-            Default object to be imposed if it is set as None
+        value : object
+            The raw input value.
+        dtype : str, optional
+            The declared type of the value (e.g., "string", "number").
+        default_value : object, optional
+            Value to use if transformation returns None.
 
         Returns
         -------
-        object: Arranged value
+        Any
+            Transformed value or default.
         """
         if dtype in self.__processors and value is not None:
             _process = self.__processors[dtype]

@@ -82,7 +82,7 @@ class TransactionalTracerLogging(TransactionalTracer):
         checkpoint_id : Optional[str], optional
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
-            Additional logging context, by default None.        """
+            Additional logging context, by default None."""
         new_extra = self._re_args_with_main(transaction_id, checkpoint_id)
         if extra:
             new_extra.update(extra)
@@ -148,7 +148,7 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         error_payload = ""
         if isinstance(error, Exception):
-            error_payload = ":" + str(error)
+            error_payload = ": " + str(error)
 
         self._logger.critical(str(payload) + error_payload , *args, **kwargs, extra=new_extra)
 

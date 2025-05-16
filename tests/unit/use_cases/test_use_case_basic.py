@@ -1,24 +1,23 @@
 import pytest
 from unittest.mock import MagicMock, patch
+import re
+
+from bisslog.exceptions.domain_exception import NotFound, DomainException
 
 from bisslog.use_cases.use_case_basic import BasicUseCase
-from ..utils.fake_tracer import FakeTracer
+
+
+uuid_regex = re.compile(
+    r"[a-fA-F0-9]{8}-"
+    r"[a-fA-F0-9]{4}-"
+    r"[1-5][a-fA-F0-9]{3}-"
+    r"[89abAB][a-fA-F0-9]{3}-"
+    r"[a-fA-F0-9]{12}"
+)
 
 
 class SampleUseCase(BasicUseCase):
     """Sample subclass for testing BasicUseCase."""
-
-    @BasicUseCase._transaction_manager.getter
-    def transaction_manager(self):
-        return MagicMock()
-
-    @BasicUseCase._tracing_opener.getter
-    def transaction_manager(self):
-        return MagicMock()
-
-    @BasicUseCase.log.getter
-    def transaction_manager(self):
-        return FakeTracer()
 
     def use(self, *args, **kwargs):
         """Mock implementation of the 'use' method."""
@@ -28,7 +27,7 @@ class SampleUseCase(BasicUseCase):
 @pytest.fixture
 def use_case():
     """Fixture to provide a BasicUseCase instance with mocked dependencies."""
-    return SampleUseCase("test_use_case")
+    return SampleUseCase("test_use_case", do_trace=True)
 
 
 def test_use_case_call(use_case):
@@ -62,13 +61,24 @@ def test_end_transaction(use_case):
         super_transaction_id="super-tx-456", result="result"
     )
 
-
-def test_use_case_exception_handling(use_case):
+@patch.object(SampleUseCase, "use", side_effect=ValueError("test error"))
+def test_use_case_exception_handling(mock_use, caplog):
     """Ensures exceptions are logged and re-raised."""
-    use_case.use = MagicMock(side_effect=ValueError("test error"))
-    use_case.log.tech_error = MagicMock()
+    use_case = SampleUseCase("test_use_case", do_trace=True)
 
-    with pytest.raises(ValueError, match="test error"):
-        use_case()
+    with caplog.at_level("CRITICAL"):
+        with pytest.raises(ValueError, match="test error"):
+            use_case.__call__()
 
-    use_case.log.tech_error.assert_called_once()
+    mock_use.assert_called_once()
+
+@patch.object(SampleUseCase, "use", side_effect=NotFound("basic", "domain test error"))
+def test_use_case_domain_exception_handling(mock_use, caplog):
+    """Ensures domain exception are logged and re-raised."""
+    use_case = SampleUseCase("test_use_case", do_trace=True)
+
+    with caplog.at_level("CRITICAL"):
+        with pytest.raises(DomainException, match="domain test error"):
+            use_case.__call__()
+
+    mock_use.assert_called_once()
