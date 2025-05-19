@@ -5,10 +5,10 @@ from typing import Optional
 
 from ..adapt_handler.file_uploader_handler import bisslog_upload_file
 from ..adapt_handler.publisher_handler import bisslog_pubsub
-from .use_case_basic import BasicUseCase
+from .use_case_basic import BasicUseCase, T
 
 
-class FullUseCase(BasicUseCase, ABC):
+class FullUseCase(BasicUseCase[T], ABC):
     """Extends `BasicUseCase` with additional functionalities.
 
     This class integrates message publishing and file uploading capabilities,

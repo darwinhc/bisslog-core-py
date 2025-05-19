@@ -4,13 +4,16 @@ This module provides an abstract base class `BasicUseCase` that integrates
 transactional tracing into a use case execution flow."""
 
 from abc import ABC
-from typing import Optional
+from typing import TypeVar, Generic, Optional
 
 from .use_case_base import UseCaseBase
 from ..transactional.transaction_traceable import TransactionTraceable
 
 
-class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
+T = TypeVar("T")
+
+
+class BasicUseCase(UseCaseBase, TransactionTraceable, ABC, Generic[T]):
     """Abstract base class for use cases with transactional tracing.
 
     This class provides a structured way to execute use cases while tracking
@@ -29,7 +32,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
         TransactionTraceable.__init__(self)
         self._do_trace = do_trace
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs) -> T:
         """Makes the use case callable, triggering its execution.
 
         Parameters
@@ -41,7 +44,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
 
         Returns
         -------
-        object
+        T
             The result of the use case execution."""
         return self._use(*args, **kwargs)
 
@@ -90,7 +93,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
             self._tracing_opener.end(transaction_id=transaction_id, component=self.keyname,
                                      super_transaction_id=super_transaction_id, result=result)
 
-    def _use(self, *args, **kwargs):
+    def _use(self, *args, **kwargs) -> T:
         """Executes the use case with transactional tracing.
 
         This method manages the transaction lifecycle before and after executing
@@ -105,7 +108,7 @@ class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
 
         Returns
         -------
-        object
+        T
             The result of the use case execution.
 
         Raises
