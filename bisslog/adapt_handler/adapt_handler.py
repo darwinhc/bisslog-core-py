@@ -34,7 +34,7 @@ class AdaptHandler:
 
         Parameters
         ----------
-        adapter : object
+        adapter : Any
             The adapter instance to be set as the main adapter."""
         self._divisions["main"] = adapter
 
@@ -82,7 +82,7 @@ class AdaptHandler:
 
         Returns
         -------
-        object
+        Any
             The adapter instance for the requested division.
 
         Raises
@@ -104,7 +104,7 @@ class AdaptHandler:
 
         Returns
         -------
-        object
+        Any
             The retrieved attribute or a blank adapter if the name corresponds
             to an unregistered division."""
         try:

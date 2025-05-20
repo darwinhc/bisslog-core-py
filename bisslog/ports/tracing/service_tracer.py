@@ -1,7 +1,7 @@
 """Module defining the ServiceTracer interface."""
 
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, Any
 
 from .tracer import Tracer
 
@@ -18,13 +18,13 @@ class ServiceTracer(Tracer, ABC):
     - It does not define any concrete methods but serves as a structural base."""
 
     @abstractmethod
-    def info(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def info(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
              extra: dict = None, **kwargs):
         """Logs an informational message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -33,13 +33,13 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method info")  # pragma: no cover
 
     @abstractmethod
-    def debug(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def debug(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs a debug message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -48,13 +48,13 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method debug")  # pragma: no cover
 
     @abstractmethod
-    def warning(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def warning(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                 extra: dict = None, **kwargs):
         """Logs a warning message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -63,13 +63,13 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method warning")  # pragma: no cover
 
     @abstractmethod
-    def error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def error(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs an error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
@@ -78,13 +78,13 @@ class ServiceTracer(Tracer, ABC):
         raise NotImplementedError("TracingManager must implement method error")  # pragma: no cover
 
     @abstractmethod
-    def critical(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def critical(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                  extra: dict = None, **kwargs):
         """Logs a critical error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         checkpoint_id : str, optional
             An identifier for the tracing checkpoint.
