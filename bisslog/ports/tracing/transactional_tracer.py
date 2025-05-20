@@ -93,7 +93,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional metadata for tracing.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method func_error")
+        raise NotImplementedError(
+            "TracingManager must implement method func_error")  # pragma: no cover
 
     @abstractmethod
     def tech_error(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -119,7 +120,8 @@ class TransactionalTracer(Tracer, ABC):
             Captured error to be logged.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method tech_error")
+        raise NotImplementedError(
+            "TracingManager must implement method tech_error")  # pragma: no cover
 
     @abstractmethod
     def report_start_external(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -143,7 +145,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional metadata for tracing.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method report_start_external")
+        raise NotImplementedError(
+            "TracingManager must implement method report_start_external")  # pragma: no cover
 
     @abstractmethod
     def report_end_external(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -167,7 +170,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional metadata for tracing.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method report_end_external")
+        raise NotImplementedError(
+            "TracingManager must implement method report_end_external")  # pragma: no cover
 
 
     @abstractmethod
@@ -189,7 +193,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional context information for debugging.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method info")
+        raise NotImplementedError(
+            "TracingManager must implement method info")  # pragma: no cover
 
     @abstractmethod
     def debug(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -210,7 +215,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional context information for debugging.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method debug")
+        raise NotImplementedError(
+            "TracingManager must implement method debug")  # pragma: no cover
 
     @abstractmethod
     def warning(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -231,7 +237,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional context information for debugging.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method warning")
+        raise NotImplementedError(
+            "TracingManager must implement method warning")  # pragma: no cover
 
     @abstractmethod
     def error(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -252,7 +259,8 @@ class TransactionalTracer(Tracer, ABC):
             Additional context information for debugging.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method error")
+        raise NotImplementedError(
+            "TracingManager must implement method error")  # pragma: no cover
 
     @abstractmethod
     def critical(self, payload: object, *args, transaction_id: Optional[str] = None,
@@ -273,4 +281,5 @@ class TransactionalTracer(Tracer, ABC):
             Additional context information for debugging.
         **kwargs: dict
             Keyword arguments"""
-        raise NotImplementedError("TracingManager must implement method critical")
+        raise NotImplementedError(
+            "TracingManager must implement method critical")  # pragma: no cover

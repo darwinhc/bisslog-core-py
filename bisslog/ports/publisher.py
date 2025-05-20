@@ -21,4 +21,4 @@ class IPublisher(ABC):
             The message payload to be sent.
         partition : str, optional
             The partition key, if applicable (default is None)."""
-        raise NotImplementedError("Method publish must be implemented")
+        raise NotImplementedError("Method publish must be implemented")  # pragma: no cover

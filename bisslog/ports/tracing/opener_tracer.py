@@ -24,7 +24,7 @@ class OpenerTracer(ABC):
             The name of the component initiating the transaction.
         super_transaction_id : str, optional
             The identifier of a parent transaction, if applicable."""
-        raise NotImplementedError("TracingOpener must implement start")
+        raise NotImplementedError("TracingOpener must implement start")  # pragma: no cover
 
     @abstractmethod
     def end(self, *args, transaction_id: Optional[str], component: str,
@@ -41,4 +41,4 @@ class OpenerTracer(ABC):
             The identifier of a parent transaction, if applicable.
         result : object, optional
             The result or output of the transaction, if any."""
-        raise NotImplementedError("TracingOpener must implement end")
+        raise NotImplementedError("TracingOpener must implement end")  # pragma: no cover
