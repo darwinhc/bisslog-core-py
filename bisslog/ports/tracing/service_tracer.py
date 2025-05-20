@@ -30,7 +30,7 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional logging context, by default None."""
-        raise NotImplementedError("TracingManager must implement method info")
+        raise NotImplementedError("TracingManager must implement method info")  # pragma: no cover
 
     @abstractmethod
     def debug(self, payload: object, *args, checkpoint_id: Optional[str] = None,
@@ -45,7 +45,7 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging."""
-        raise NotImplementedError("TracingManager must implement method debug")
+        raise NotImplementedError("TracingManager must implement method debug")  # pragma: no cover
 
     @abstractmethod
     def warning(self, payload: object, *args, checkpoint_id: Optional[str] = None,
@@ -60,7 +60,7 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging."""
-        raise NotImplementedError("TracingManager must implement method warning")
+        raise NotImplementedError("TracingManager must implement method warning")  # pragma: no cover
 
     @abstractmethod
     def error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
@@ -75,7 +75,7 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging."""
-        raise NotImplementedError("TracingManager must implement method error")
+        raise NotImplementedError("TracingManager must implement method error")  # pragma: no cover
 
     @abstractmethod
     def critical(self, payload: object, *args, checkpoint_id: Optional[str] = None,
@@ -90,4 +90,4 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging."""
-        raise NotImplementedError("TracingManager must implement method critical")
+        raise NotImplementedError("TracingManager must implement method critical")  # pragma: no cover

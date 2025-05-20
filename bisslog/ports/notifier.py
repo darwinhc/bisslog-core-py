@@ -16,4 +16,4 @@ class INotifier(ABC):
         ----------
         notification_obj : object
             The notification payload to be sent."""
-        raise NotImplementedError("Callable must be implemented")
+        raise NotImplementedError("Callable must be implemented")  # pragma: no cover

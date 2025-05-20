@@ -39,7 +39,7 @@ def test_process_integer(arranger, value, expected):
 @pytest.mark.parametrize("value, expected", [
     ("hello", "hello"),
     (123, "123"),
-    (None, "None"),
+    (None, None),
     (True, "True"),
 ])
 def test_process_string(arranger, value, expected):
@@ -102,3 +102,25 @@ def test_process_not_type(arranger, value, expected):
 ])
 def test_arrange_value(arranger, value, dtype, default_value, expected):
     assert arranger.arrange_value(value, dtype, default_value) == expected
+
+
+def test_arrange_dt_value_with_now_default():
+    arranger = IArranger()
+    format_dt = "%Y-%m-%d"
+    result = arranger.arrange_value("None", dtype="datetime", date_format=format_dt)
+    assert result is None
+    result = arranger.arrange_value("2025-11-29", dtype="datetime", date_format=format_dt)
+    assert isinstance(result, float)
+
+def test_arrange_value_datetime_now():
+    arranger = IArranger()
+    result = arranger.arrange_value(None, dtype="datetime", default_value="now")
+    assert isinstance(result, float)
+    result = arranger.arrange_value("None", dtype="datetime", default_value="now")
+    assert isinstance(result, float)
+
+
+def test_arrange_value_direct_pass_through():
+    arranger = IArranger()
+    assert arranger.arrange_value("unchanged", dtype="-") == "unchanged"
+

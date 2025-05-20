@@ -29,7 +29,7 @@ class IUploadFile(ABC):
         -------
         bool
             True if the upload is successful, False otherwise."""
-        raise NotImplementedError("upload_file_from_local must be implemented")
+        raise NotImplementedError("upload_file_from_local must be implemented")  # pragma: no cover
 
     @abstractmethod
     def upload_file_stream(self, remote_path: str, stream: bytes, *args,
@@ -49,4 +49,4 @@ class IUploadFile(ABC):
         -------
         bool
             True if the upload is successful, False otherwise."""
-        raise NotImplementedError("upload_file_stream must be implemented")
+        raise NotImplementedError("upload_file_stream must be implemented")  # pragma: no cover
