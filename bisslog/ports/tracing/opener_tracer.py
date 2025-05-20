@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from typing import Optional
+from typing import Optional, Any
 
 
 class OpenerTracer(ABC):
@@ -28,7 +28,7 @@ class OpenerTracer(ABC):
 
     @abstractmethod
     def end(self, *args, transaction_id: Optional[str], component: str,
-            super_transaction_id: Optional[str], result: object = None):
+            super_transaction_id: Optional[str], result: Any = None):
         """Marks the end of a transaction.
 
         Parameters
@@ -39,6 +39,6 @@ class OpenerTracer(ABC):
             The name of the component that executed the transaction.
         super_transaction_id : str, optional
             The identifier of a parent transaction, if applicable.
-        result : object, optional
+        result : Any, optional
             The result or output of the transaction, if any."""
         raise NotImplementedError("TracingOpener must implement end")  # pragma: no cover

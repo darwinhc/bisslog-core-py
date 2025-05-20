@@ -144,7 +144,7 @@ else:
 
             Returns
             -------
-            object
+            Any
                 The result of the use case.
             """
             return self._entrypoint(*args, **kwargs)

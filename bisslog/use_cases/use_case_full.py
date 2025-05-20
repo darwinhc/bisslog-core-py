@@ -1,7 +1,7 @@
 """Module defining the FullUseCase class."""
 
 from abc import ABCMeta
-from typing import Optional
+from typing import Optional, Any
 
 from ..ports.upload_file import IUploadFile
 from ..ports.publisher import IPublisher
@@ -27,7 +27,7 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
         """Returns the global transaction manager instance."""
         return bisslog_upload_file.main
 
-    def publish(self, queue_name: str, body: object, *args,
+    def publish(self, queue_name: str, body: Any, *args,
                 partition: Optional[str] = None, **kwargs) -> None:
         """Publishes a message to the specified queue.
 
@@ -35,7 +35,7 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
         ----------
         queue_name : str
             The name of the queue where the message should be published.
-        body : object
+        body : Any
             The message payload to be published.
         *args
             Arguments to the publisher.

@@ -95,11 +95,11 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             The value to convert to datetime.
         date_format : str, optional
             Format to interpret strings, by default "iso".
-        default_value : object, optional
+        default_value : Any, optional
             Value to return if parsing fails or value is None.
         transform : str, optional
             A datetime attribute to extract (e.g., "year", "timestamp").
@@ -132,7 +132,7 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             Value to check.
         enum : iterable
             Collection of valid enum values.
@@ -152,7 +152,7 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             Value to convert.
 
         Returns
@@ -168,7 +168,7 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             Value to convert.
 
         Returns
@@ -189,7 +189,7 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             Value to convert.
 
         Returns
@@ -213,7 +213,7 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             Value to return.
 
         Returns
@@ -228,11 +228,11 @@ class IArranger(ABC):
 
         Parameters
         ----------
-        value : object
+        value : Any
             The raw input value.
         dtype : str, optional
             The declared type of the value (e.g., "string", "number").
-        default_value : object, optional
+        default_value : Any, optional
             Value to use if transformation returns None.
 
         Returns
