@@ -91,7 +91,7 @@ class TransactionalTracer(Tracer, ABC):
             The checkpoint where the error occurred.
         extra : dict, optional
             Additional metadata for tracing.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method func_error")  # pragma: no cover
@@ -118,7 +118,7 @@ class TransactionalTracer(Tracer, ABC):
             Additional metadata for tracing.
         error: Exception
             Captured error to be logged.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method tech_error")  # pragma: no cover
@@ -143,7 +143,7 @@ class TransactionalTracer(Tracer, ABC):
             The checkpoint where the external process started.
         extra : dict, optional
             Additional metadata for tracing.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method report_start_external")  # pragma: no cover
@@ -168,7 +168,7 @@ class TransactionalTracer(Tracer, ABC):
             The checkpoint where the external process ended.
         extra : dict, optional
             Additional metadata for tracing.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method report_end_external")  # pragma: no cover
@@ -191,7 +191,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method info")  # pragma: no cover
@@ -213,7 +213,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method debug")  # pragma: no cover
@@ -235,7 +235,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method warning")  # pragma: no cover
@@ -257,7 +257,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method error")  # pragma: no cover
@@ -279,7 +279,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method critical")  # pragma: no cover

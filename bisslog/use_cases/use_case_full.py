@@ -37,11 +37,11 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
             The name of the queue where the message should be published.
         body : object
             The message payload to be published.
-        *args: tuple
+        *args
             Arguments to the publisher.
         partition : Optional[str]
             Optional partition identifier for the message.
-        **kwargs : dict
+        **kwargs
             Keyword arguments"""
         self.__publisher(queue_name, body, *args, partition=partition, **kwargs)
 
@@ -55,11 +55,11 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
             The destination path where the file should be uploaded.
         stream : bytes
             The file content in bytes.
-        *args: tuple
+        *args
             Arguments to file uploader.
         transaction_id : Optional[str], default=None
             Optional transaction identifier.
-        **kwargs : dict
+        **kwargs
             Keyword arguments
 
         Returns
@@ -83,7 +83,7 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
             Arguments to file uploader.
         transaction_id : Optional[str], default=None
             Optional transaction identifier.
-        **kwargs : dict
+        **kwargs
             Keyword arguments
 
         Returns

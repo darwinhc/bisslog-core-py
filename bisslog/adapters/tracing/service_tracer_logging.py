@@ -25,7 +25,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -46,7 +46,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -67,7 +67,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -88,7 +88,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -109,7 +109,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -130,7 +130,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -153,7 +153,7 @@ class ServiceTracerLogging(ServiceTracer):
             The exception to include in the log, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         new_payload: str = str(payload)
         if error is not None:
@@ -177,7 +177,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
@@ -198,7 +198,7 @@ class ServiceTracerLogging(ServiceTracer):
             An identifier for the logging checkpoint, by default None.
         extra : dict, optional
             Additional logging context, by default None.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = extra or {}
         extra['checkpoint_id'] = checkpoint_id or ''
