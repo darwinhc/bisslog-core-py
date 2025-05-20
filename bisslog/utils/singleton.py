@@ -29,7 +29,7 @@ class SingletonReplaceAttrsMeta(type):
 
         Returns
         -------
-        object
+        Any
             The singleton instance of the class."""
         with cls._lock:
             new_instance = super().__call__(*args, **kwargs)
@@ -48,7 +48,7 @@ class SingletonReplaceAttrsMeta(type):
 
         Parameters
         ----------
-        new_inst : object
+        new_inst : Any
             The newly created instance.
 
         Returns

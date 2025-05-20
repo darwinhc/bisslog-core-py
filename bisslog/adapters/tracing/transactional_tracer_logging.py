@@ -1,7 +1,7 @@
 """Module providing logging-based implementation of the TransactionalTracer interface."""
 
 import logging
-from typing import Optional
+from typing import Optional, Any
 
 from ...ports.tracing.transactional_tracer import TransactionalTracer
 
@@ -12,13 +12,13 @@ class TransactionalTracerLogging(TransactionalTracer):
     def __init__(self):
         self._logger = logging.getLogger("transactional-tracer")
 
-    def info(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def info(self, payload: Any, *args, transaction_id: Optional[str] = None,
              checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs an informational message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -31,13 +31,13 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.info(payload, *args, **kwargs, extra=new_extra)
 
-    def debug(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def debug(self, payload: Any, *args, transaction_id: Optional[str] = None,
               checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a debug message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -50,13 +50,13 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.debug(payload, *args, **kwargs, extra=new_extra)
 
-    def warning(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def warning(self, payload: Any, *args, transaction_id: Optional[str] = None,
                 checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a warning message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -69,13 +69,13 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.warning(payload, *args, **kwargs, extra=new_extra)
 
-    def error(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def error(self, payload: Any, *args, transaction_id: Optional[str] = None,
               checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs an error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -88,13 +88,13 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.error(payload, *args, **kwargs, extra=new_extra)
 
-    def critical(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def critical(self, payload: Any, *args, transaction_id: Optional[str] = None,
                  checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a critical error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -107,13 +107,13 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.critical(payload, *args, **kwargs, extra=new_extra)
 
-    def func_error(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def func_error(self, payload: Any, *args, transaction_id: Optional[str] = None,
                    checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a function-related error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -126,14 +126,14 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.error(payload, *args, **kwargs, extra=new_extra)
 
-    def tech_error(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def tech_error(self, payload: Any, *args, transaction_id: Optional[str] = None,
                    checkpoint_id: Optional[str] = None, error: Exception = None, extra: dict = None,
                    **kwargs):
         """Logs a technical error message, optionally including an exception.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -152,13 +152,13 @@ class TransactionalTracerLogging(TransactionalTracer):
 
         self._logger.critical(str(payload) + error_payload , *args, **kwargs, extra=new_extra)
 
-    def report_start_external(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def report_start_external(self, payload: Any, *args, transaction_id: Optional[str] = None,
                               checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs the start of an external operation.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -171,13 +171,13 @@ class TransactionalTracerLogging(TransactionalTracer):
             new_extra.update(extra)
         self._logger.info(payload, *args, **kwargs, extra=new_extra)
 
-    def report_end_external(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def report_end_external(self, payload: Any, *args, transaction_id: Optional[str] = None,
                             checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs the end of an external operation.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.

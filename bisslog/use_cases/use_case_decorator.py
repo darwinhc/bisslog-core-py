@@ -68,9 +68,9 @@ def _run_with_trace(
         The keyname used for transaction and component tracing.
     do_trace : bool
         Whether to enable tracing or not.
-    _tracing_opener : object
+    _tracing_opener : Any
         The global tracing system opener.
-    _transaction_manager : object
+    _transaction_manager : Any
         The global transaction manager.
 
     Returns
