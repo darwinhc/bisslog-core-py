@@ -11,6 +11,11 @@ def test_mapping_group_initialization():
     group = MappingGroup([mapper1, mapper2])
     assert len(group._container) == 2
 
+def test_mapping_group_invalid_mapper():
+    """Tests that MappingGroup raises a ValueError when initialized with an invalid mapper."""
+    invalid_mapper = object()  # Not a Mapper instance
+    with pytest.raises(ValueError, match="is not a mapper"):
+        MappingGroup([invalid_mapper])
 
 def test_mapping_group_empty_container():
     """Tests that MappingGroup raises a ValueError when initialized with an empty container."""
