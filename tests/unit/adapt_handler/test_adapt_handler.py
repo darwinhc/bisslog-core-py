@@ -7,7 +7,7 @@ from bisslog.domain_context import domain_context
 
 @pytest.fixture
 def mock_service_tracer():
-    """Mock traceability service."""
+    """Mock implementation of the traceability service."""
 
     class MockServiceTracer:
         def __init__(self):
@@ -21,32 +21,32 @@ def mock_service_tracer():
 
 @pytest.fixture
 def mock_domain_context(mock_service_tracer):
-    """Mock for context domain"""
+    """Mock for the domain context."""
     domain_context.service_tracer = mock_service_tracer
     return domain_context
 
 
 @pytest.fixture
 def adapt_handler(mock_domain_context):
-    """AdaptHandler instance with mocks"""
+    """Returns an AdaptHandler instance with mocked dependencies."""
     return AdaptHandler(component="test_component")
 
 
 def test_initialization(adapt_handler):
-    """test if the initialization is correct"""
+    """Verifies that initialization is correct."""
     assert adapt_handler.component == "test_component"
     assert adapt_handler._divisions == {}
 
 
 def test_register_main_adapter(adapt_handler):
-    """test that main registration is valid"""
+    """Verifies that registering the main adapter is valid."""
     mock_adapter = object()
     adapt_handler.register_main_adapter(mock_adapter)
     assert adapt_handler._divisions["main"] == mock_adapter
 
 
 def test_register_adapters(adapt_handler):
-    """Verifica que los adaptadores se registren correctamente."""
+    """Verifies that adapters are registered correctly."""
     adapter1 = object()
     adapter2 = object()
 
@@ -57,7 +57,7 @@ def test_register_adapters(adapt_handler):
 
 
 def test_register_duplicate_adapter(adapt_handler, mock_service_tracer):
-    """Prueba que se detecten divisiones duplicadas y se emita un warning."""
+    """Verifies that duplicate division names are detected and a warning is issued."""
     adapter1 = object()
     adapter2 = object()
 
@@ -71,7 +71,7 @@ def test_register_duplicate_adapter(adapt_handler, mock_service_tracer):
 
 
 def test_generate_blank_adapter(adapt_handler):
-    """Tests if a BlankAdapter is generated correctly when a division does not exist."""
+    """Verifies that a BlankAdapter is generated correctly when the division does not exist."""
     blank_adapter = adapt_handler.generate_blank_adapter("new_division")
     assert isinstance(blank_adapter, BlankAdapter)
     assert blank_adapter.division_name == "new_division"
@@ -79,7 +79,7 @@ def test_generate_blank_adapter(adapt_handler):
 
 
 def test_get_existing_division(adapt_handler):
-    """Tests retrieving an existing division returns the correct adapter."""
+    """Verifies that retrieving an existing division returns the correct adapter."""
     adapter = object()
     adapt_handler.register_adapters(finance=adapter)
 
@@ -88,13 +88,13 @@ def test_get_existing_division(adapt_handler):
 
 
 def test_get_non_existing_division(adapt_handler):
-    """Tests if an AttributeError is raised when trying to access a non-existing division."""
+    """Verifies that an AttributeError is raised when trying to access a non-existing division."""
     with pytest.raises(AttributeError, match="Division named 'marketing' does not exist."):
         adapt_handler.get_division("marketing")
 
 
 def test_getattribute_existing_division(adapt_handler):
-    """Tests __getattribute__ returns a registered adapter when accessed as an attribute."""
+    """Verifies that __getattribute__ returns a registered adapter when accessed as an attribute."""
     adapter = object()
     adapt_handler.register_adapters(it=adapter)
 
@@ -102,7 +102,7 @@ def test_getattribute_existing_division(adapt_handler):
 
 
 def test_getattribute_creates_blank_adapter(adapt_handler):
-    """Tests if __getattribute__ creates and stores a BlankAdapter when a division does not exist."""
+    """Verifies that __getattribute__ creates and stores a BlankAdapter when the division does not exist."""
     blank_adapter = adapt_handler.unknown_division
     assert isinstance(blank_adapter, BlankAdapter)
     assert blank_adapter.division_name == "unknown_division"

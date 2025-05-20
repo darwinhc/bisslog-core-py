@@ -3,7 +3,6 @@ from unittest.mock import MagicMock
 
 from bisslog.ports.tracing.transactional_tracer import TransactionalTracer
 
-mock_transaction_manager = MagicMock()
 
 class FakeTransactionalTracer(TransactionalTracer):
 
@@ -38,8 +37,3 @@ class FakeTransactionalTracer(TransactionalTracer):
 
     def report_end_external(self, payload, *args, **kwargs):
         pass
-
-    def __getattribute__(self, item):
-        if item == "_transaction_manager":
-            return mock_transaction_manager
-        return super().__getattribute__(item)

@@ -34,9 +34,10 @@ from .transactional.transaction_manager import transaction_manager
 from .use_cases.use_case_base import UseCaseBase
 from .use_cases.use_case_basic import BasicUseCase
 from .use_cases.use_case_full import FullUseCase
+from .use_cases.use_case_decorator import use_case
 
 __all__ = [
-    "BasicUseCase", "FullUseCase", "UseCaseBase",
+    "BasicUseCase", "FullUseCase", "UseCaseBase", "use_case",
     "AdaptHandler",
     "bisslog_db", "BissLogDB", "Division",
     "NotifierHandler", "bisslog_notifier",

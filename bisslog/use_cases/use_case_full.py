@@ -1,21 +1,31 @@
 """Module defining the FullUseCase class."""
 
-from abc import ABC
+from abc import ABCMeta
 from typing import Optional
+
+from ..ports.upload_file import IUploadFile
+from ..ports.publisher import IPublisher
 
 from ..adapt_handler.file_uploader_handler import bisslog_upload_file
 from ..adapt_handler.publisher_handler import bisslog_pubsub
-from .use_case_basic import BasicUseCase, T
+from .use_case_basic import BasicUseCase
 
 
-class FullUseCase(BasicUseCase[T], ABC):
+class FullUseCase(BasicUseCase, metaclass=ABCMeta):
     """Extends `BasicUseCase` with additional functionalities.
 
     This class integrates message publishing and file uploading capabilities,
     leveraging predefined adapters."""
 
-    __publisher = bisslog_pubsub.main
-    __upload_file_adapter = bisslog_upload_file.main
+    @property
+    def __publisher(self) -> IPublisher:
+        """Property to access the publisher handler."""
+        return bisslog_pubsub.main
+
+    @property
+    def __upload_file_adapter(self) -> IUploadFile:
+        """Returns the global transaction manager instance."""
+        return bisslog_upload_file.main
 
     def publish(self, queue_name: str, body: object, *args,
                 partition: Optional[str] = None, **kwargs) -> None:

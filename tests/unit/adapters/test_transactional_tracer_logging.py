@@ -34,16 +34,20 @@ def test_logging_payloads(tracer, caplog, method, level, payload):
 
     with caplog.at_level(level):
         if method == "tech_error":
-            log_func(*payload, error=ValueError("test exception"), transaction_id="tx123", checkpoint_id="cp456")
+            log_func(*payload, error=ValueError("test exception"), transaction_id="tx123",
+                     checkpoint_id="cp456", extra={"extra_key1": "something"})
         else:
-            log_func(*payload, transaction_id="tx123", checkpoint_id="cp456")
+            log_func(*payload, transaction_id="tx123", checkpoint_id="cp456",
+                     extra={"extra_key1": "something"})
 
     # Confirm that something was logged
     assert len(caplog.records) > 0
     last_record = caplog.records[-1]
     assert last_record.levelname == level
-    assert "tx123" in last_record.__dict__.get("extra", {}) or last_record.__dict__.get("transaction_id") == "tx123"
-    assert "cp456" in last_record.__dict__.get("extra", {}) or last_record.__dict__.get("checkpoint_id") == "cp456"
+    assert "tx123" in last_record.__dict__.get("extra", {}) or last_record.__dict__.get(
+        "transaction_id") == "tx123"
+    assert "cp456" in last_record.__dict__.get("extra", {}) or last_record.__dict__.get(
+        "checkpoint_id") == "cp456"
     assert str(payload[0]).split()[0] in last_record.message
 
 
