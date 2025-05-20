@@ -14,7 +14,7 @@ The key principle is:
 It is designed for **backend functionality**, **framework-agnostic development**, and to **minimize migration costs**.
 
 
-![Explanation Diagram](https://raw.githubusercontent.com/darwinhc/bisslog-core-py/main/docs/explanation.jpg)
+![Explanation Diagram](https://raw.githubusercontent.com/darwinhc/bisslog-core-py/master/docs/explanation.jpg)
 
 
 ---
