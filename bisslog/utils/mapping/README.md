@@ -1,9 +1,8 @@
-# Mapping ![Datikz logo](../docs/brand/datikz-logo-sm-primary-48px.png)
+# Mapping
 
 The function of a mapper is to redirect the information to different key values or to combine this
 information to create new fields.
 
-![Mapper explanation](../docs/mapping/mapper-exp1.png)
 
 ## Objectives
 
@@ -33,8 +32,3 @@ from bisslog.utils.mapping import MappingGroup
 
 MappingGroup([EXAMPLE_MAPPER, ANOTHER_EXAMPLE_MAPPER])
 ~~~
-
-## New features
-
-- Internal mapper resources for mapping without the need for a source
-- Web framework mapper

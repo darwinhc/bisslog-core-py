@@ -1,21 +1,31 @@
 """Module defining the FullUseCase class."""
 
-from abc import ABC
+from abc import ABCMeta
 from typing import Optional
+
+from ..ports.upload_file import IUploadFile
+from ..ports.publisher import IPublisher
 
 from ..adapt_handler.file_uploader_handler import bisslog_upload_file
 from ..adapt_handler.publisher_handler import bisslog_pubsub
 from .use_case_basic import BasicUseCase
 
 
-class FullUseCase(BasicUseCase, ABC):
+class FullUseCase(BasicUseCase, metaclass=ABCMeta):
     """Extends `BasicUseCase` with additional functionalities.
 
     This class integrates message publishing and file uploading capabilities,
     leveraging predefined adapters."""
 
-    __publisher = bisslog_pubsub.main
-    __upload_file_adapter = bisslog_upload_file.main
+    @property
+    def __publisher(self) -> IPublisher:
+        """Property to access the publisher handler."""
+        return bisslog_pubsub.main
+
+    @property
+    def __upload_file_adapter(self) -> IUploadFile:
+        """Returns the global transaction manager instance."""
+        return bisslog_upload_file.main
 
     def publish(self, queue_name: str, body: object, *args,
                 partition: Optional[str] = None, **kwargs) -> None:
@@ -27,13 +37,13 @@ class FullUseCase(BasicUseCase, ABC):
             The name of the queue where the message should be published.
         body : object
             The message payload to be published.
-        *args: tuple
+        *args
             Arguments to the publisher.
         partition : Optional[str]
             Optional partition identifier for the message.
-        **kwargs : dict
+        **kwargs
             Keyword arguments"""
-        self.__publisher(queue_name, body, *args, partition=partition, **kwargs)
+        self.__publisher.__call__(queue_name, body, *args, partition=partition, **kwargs)
 
     def upload_file_stream(self, remote_path: str, stream: bytes, *args,
                            transaction_id: Optional[str] = None, **kwargs) -> bool:
@@ -45,11 +55,11 @@ class FullUseCase(BasicUseCase, ABC):
             The destination path where the file should be uploaded.
         stream : bytes
             The file content in bytes.
-        *args: tuple
+        *args
             Arguments to file uploader.
         transaction_id : Optional[str], default=None
             Optional transaction identifier.
-        **kwargs : dict
+        **kwargs
             Keyword arguments
 
         Returns
@@ -69,11 +79,11 @@ class FullUseCase(BasicUseCase, ABC):
             The local file path to be uploaded.
         remote_path : str
             The destination path where the file should be stored.
-        *args: tuple
+        *args
             Arguments to file uploader.
         transaction_id : Optional[str], default=None
             Optional transaction identifier.
-        **kwargs : dict
+        **kwargs
             Keyword arguments
 
         Returns

@@ -1,6 +1,7 @@
 """Module implementing transaction traceability support."""
-
 from ..domain_context import domain_context
+from ..ports.tracing.opener_tracer import OpenerTracer
+from ..ports.tracing.transactional_tracer import TransactionalTracer
 from ..transactional.transaction_manager import TransactionManager, transaction_manager
 
 
@@ -12,7 +13,7 @@ class TransactionTraceable:
 
     Properties
     ----------
-    log : object
+    log : TransactionalTracer
         Provides access to the logging and tracing system from the domain context."""
 
     @property
@@ -21,11 +22,11 @@ class TransactionTraceable:
         return transaction_manager
 
     @property
-    def log(self):
+    def log(self) -> TransactionalTracer:
         """Returns the logging and tracing system from the domain context."""
         return domain_context.tracer
 
     @property
-    def _tracing_opener(self):
+    def _tracing_opener(self) -> OpenerTracer:
         """Returns the tracing opener from the domain context."""
         return domain_context.opener

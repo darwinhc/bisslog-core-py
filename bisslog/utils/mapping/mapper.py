@@ -1,27 +1,28 @@
 """Implementation of the general mapper class"""
-from typing import Union
+from typing import Union, List, Dict
 
 from .arranger import IArranger
 
 ERRORS = {
     "base-type-error": "Base must be a dictionary or list",
     "base-kv-type-error": "Base must be a dict with key-value string",
-    "no-values": "There is not key or value",
-    "no-route": "There is not route or path",
-    "no-base": "There is not base",
+    "no-values": "There is no key or value",
+    "no-route": "There is no route or path",
+    "no-base": "There is no base",
     "path-naming-incorrect": "Resources to be added in the path naming are missing"
 }
 
 
 class Mapper(IArranger):
-    """Redirector of information to specific fields and combiner of these fields"""
+    """Redirects information to specific fields and combines those fields"""
 
     default_separator = '.'
     list_identifier = '[]'
     _default_path_naming = '$'
 
-    def __init__(self, name: str, base: dict, input_type: str = "dict", output_type: str = "dict",
-                 *, resources: dict = None, **kwargs):
+    def __init__(self, name: str, base: Union[Dict[str, str], List[Dict[str, str]]],
+                 input_type: str = "dict", output_type: str = "dict", *, resources: dict = None,
+                 **kwargs):
         super().__init__()
         self._format_base(base)
 
@@ -36,7 +37,7 @@ class Mapper(IArranger):
         self._base = self._replace_paths(base)
 
     def _replace_paths(self, base):
-        """Reemplaza los paths en base a los recursos sin repetir cálculos."""
+        """Replaces the paths in the base using the resources without repeating computations."""
         if isinstance(base, dict):
             return {new_k: new_v for k, v in base.items()
                     for new_k, new_v in self.__check_resources_and_replace(k, v)}
@@ -45,7 +46,7 @@ class Mapper(IArranger):
                 for new_k, new_v in self.__check_resources_and_replace(obj["from"], obj["to"])]
 
     def _format_base(self, base):
-        """Verifica y formatea la base inicial."""
+        """Checks and formats the initial base."""
         if isinstance(base, dict):
             for key, value in base.items():
                 self.__check_source_target(key, value)
@@ -57,7 +58,7 @@ class Mapper(IArranger):
 
     @staticmethod
     def __check_source_target(source, target):
-        """Performs various validations of data paths
+        """Performs various validations on data paths
 
         Parameters
         ----------
@@ -72,7 +73,7 @@ class Mapper(IArranger):
             raise TypeError(ERRORS["base-kv-type-error"] + " in value of key " + str(source))
 
     def __check_resources_and_replace(self, path_source, path_target):
-        """Validates and performs the loading process in the paths and the associated resources.
+        """Validates and applies resource substitution in the given paths.
 
         Parameters
         ----------
@@ -89,33 +90,33 @@ class Mapper(IArranger):
             new_path_source = new_path_source.replace(
                 self._path_naming + "." + key, self._resources[key])
             new_path_target = new_path_target.replace(
-                self._path_naming + "." +  key, self._resources[key])
+                self._path_naming + "." + key, self._resources[key])
         if self._path_naming in new_path_source or self._path_naming in new_path_target:
             raise ValueError(ERRORS["path-naming-incorrect"])
         yield new_path_source, new_path_target
 
     @property
     def base(self) -> dict:
-        """Getter of the base property"""
+        """Returns the base mapping configuration."""
         return self._base
 
     @property
     def name(self) -> str:
-        """Getter of the name property"""
+        """Returns the name of the mapper."""
         return self._name
 
     @property
     def input_type(self) -> str:
-        """Getter of the input type property"""
+        """Returns the expected input type."""
         return self._input_type
 
     @property
     def output_type(self) -> str:
-        """Getter of the output type property"""
+        """Returns the expected output type."""
         return self._output_type
 
     def get_initial_object(self):
-        """Get the initial object as buffer to return"""
+        """Returns the initial output object as a buffer."""
         res = None
         if self._output_type == "dict":
             res = {}
@@ -124,17 +125,17 @@ class Mapper(IArranger):
         return res
 
     def __execute__(self, data=None):
-        """Makes use of the entered data to perform the mapping of incoming data
+        """Processes the input data and maps it according to the configuration.
 
         Parameters
         ----------
         data: dict, list
-            Source data from which the information will be obtained
+            Input data from which information will be mapped
 
         Returns
         -------
         res: dict, list
-            Data object mapped from the source
+            Mapped data output
         """
         if self.__format == "dict":
             res = self.__execute_mapper_as_dict(data)
@@ -156,7 +157,7 @@ class Mapper(IArranger):
                 buffer_target = buffer_target[path]
 
     def __execute_mapper_as_dict(self, data):
-        """Performs mapping of data from a base as a dict"""
+        """Performs mapping of data based on a dictionary-formatted base."""
         res = self.get_initial_object()
         for source, target in self._base.items():
             route = source.split(self._separator)
@@ -171,7 +172,7 @@ class Mapper(IArranger):
         return res
 
     def __execute_mapper_as_list(self, data):
-        """Performs mapping of data from a base as a list"""
+        """Performs mapping of data based on a list-formatted base."""
         res = self.get_initial_object()
         self._base : list
         for obj in self._base:
@@ -189,7 +190,7 @@ class Mapper(IArranger):
         return res
 
     def map(self, data):
-        """Redirects data to new fields"""
+        """Redirects input data to the configured output fields."""
         res = self.__execute__(data)
         return res
 

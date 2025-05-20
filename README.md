@@ -14,7 +14,7 @@ The key principle is:
 It is designed for **backend functionality**, **framework-agnostic development**, and to **minimize migration costs**.
 
 
-![image-explanation](docs/explanation.jpg)
+![Explanation Diagram](https://raw.githubusercontent.com/darwinhc/bisslog-core-py/main/docs/explanation.jpg)
 
 
 ---
@@ -39,20 +39,23 @@ from random import random
 
 from bisslog.database.bisslog_db import bisslog_db as db
 from bisslog.use_cases.use_case_full import FullUseCase
+from bisslog import use_case
 from scripts.project_example_1.usecases.my_second_use_case import my_second_use_case
 
 
 class SumarUseCase(FullUseCase):
 
-    def use(self, a: int, b: int, user_id: int, transaction_id: str, *args, **kwargs) -> dict:
+    @use_case  # or simply def use()
+    def something(self, a: int, b: int, user_id: int, transaction_id: str, *args, **kwargs) -> dict:
         component = self._transaction_manager.get_component()
-        self.log.info("Se recibe a:%d b:%d %s", a, b, component, checkpoint_id="reception",
+        self.log.info("Receive a:%d b:%d %s", a, b, component, checkpoint_id="reception",
                       transaction_id=transaction_id)
 
         # Retrieve last session
         last_session = db.session.get_last_session_user(user_id)
         if last_session is not None:
-            self.log.info(f"La última sesión del usuario {user_id} fue {last_session}", checkpoint_id="last_session")
+            self.log.info(f"Last session of user {user_id} fue {last_session}", 
+                          checkpoint_id="last_session")
 
         db.session.save_new_session_user(user_id)
 
@@ -72,6 +75,39 @@ class SumarUseCase(FullUseCase):
 
 sumar_use_case = SumarUseCase("sumar")
 ~~~
+
+~~~python
+from bisslog import use_case, domain_context, transaction_manager, bisslog_upload_file
+
+
+log = domain_context.tracer
+
+@use_case
+def my_second_use_case(value: float, product_type: str, *args, **kwargs) -> float:
+
+        log.info(
+            "Received %d %s", value, transaction_manager.get_component(),
+            checkpoint_id="second-reception")
+
+        if product_type == "string1":
+            new_value = value * .2
+        elif product_type == "string2":
+            new_value = value * .3
+        elif product_type == "string3":
+            new_value = value * .5
+        else:
+            new_value = value * .05
+
+        uploaded = bisslog_upload_file.main.upload_file_from_local("./test.txt", "/app/casa/20")
+
+        if uploaded:
+
+            log.info("Uploaded file component: %s", transaction_manager.get_component(),
+                     checkpoint_id="uploaded-file")
+
+        return new_value
+~~~
+
 
 
 For the configuration of the entry-points or primary libraries, they will only have to call the corresponding use case and map the fields. Here is an example with FastAPI. [More examples](scripts/project_example_1/)

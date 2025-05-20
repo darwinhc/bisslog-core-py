@@ -2,6 +2,7 @@
 import threading
 import uuid
 from dataclasses import dataclass
+from typing import Optional, Dict, List
 
 from ..utils.singleton import SingletonReplaceAttrsMeta
 
@@ -26,7 +27,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
     This class allows creating, retrieving, and clearing transactions per thread."""
 
     def __init__(self):
-        self._thread_active_transaction_mapping: dict[int, list[Transaction]] = {}
+        self._thread_active_transaction_mapping: Dict[int, List[Transaction]] = {}
         self._loc = threading.Lock()
 
     @staticmethod
@@ -63,7 +64,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
                 transactions_ids.append(Transaction(transaction_id, component))
         return transaction_id
 
-    def get_transaction_id(self) -> str:
+    def get_transaction_id(self) -> Optional[str]:
         """Retrieves the latest transaction ID associated with the current thread.
 
         Returns
@@ -82,9 +83,9 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
                 self._thread_active_transaction_mapping[thread_id]
             ):
                 return self._thread_active_transaction_mapping[thread_id][-1].transaction_id
-            raise KeyError("Transaction ID not found in cache")
+            return None
 
-    def get_component(self) -> str:
+    def get_component(self) -> Optional[str]:
         """Retrieves the component associated with the latest transaction of the current thread.
 
         Returns
@@ -103,14 +104,14 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
                 self._thread_active_transaction_mapping[thread_id]
             ):
                 return self._thread_active_transaction_mapping[thread_id][-1].component
-            raise KeyError("Transaction ID not found in cache")
+            return None
 
-    def get_main_transaction_id(self) -> str:
+    def get_main_transaction_id(self) -> Optional[str]:
         """Retrieves the first transaction ID created for the current thread.
 
         Returns
         -------
-        str
+        Optional[str]
             The first transaction ID.
 
         Raises
@@ -124,7 +125,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
                 self._thread_active_transaction_mapping[thread_id]
             ):
                 return self._thread_active_transaction_mapping[thread_id][0].transaction_id
-            raise KeyError("Transaction ID not found in cache")
+            return None
 
     def close_transaction(self):
         """Closes the most recent transaction for the current thread.
@@ -133,7 +134,7 @@ class TransactionManager(metaclass=SingletonReplaceAttrsMeta):
         ------
         IndexError
             If no transaction exists to close."""
-        self._thread_active_transaction_mapping[self.get_thread_id()].pop()
+        self._thread_active_transaction_mapping.get(self.get_thread_id(), []).pop()
 
     def clear(self):
         """Clears all transactions from the cache."""

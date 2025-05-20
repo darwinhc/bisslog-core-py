@@ -1,4 +1,5 @@
 import pytest
+
 from bisslog.utils.mapping import build_mapper, MappingGroup, Mapper
 
 

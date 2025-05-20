@@ -1,4 +1,5 @@
 import pytest
+
 from bisslog.ports.publisher import IPublisher
 
 
@@ -7,7 +8,7 @@ class TestPublisher(IPublisher):
         pass
 
 
-def test_ipublisher_cannot_be_instantiated():
+def test_interface_publisher_cannot_be_instantiated():
     with pytest.raises(TypeError):
         IPublisher()
 

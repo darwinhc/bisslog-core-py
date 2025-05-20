@@ -1,7 +1,6 @@
 import pytest
+
 from bisslog.utils.mapping import Mapper, MappingGroup
-
-
 
 
 def test_mapping_group_initialization():
@@ -10,6 +9,13 @@ def test_mapping_group_initialization():
     mapper2 = Mapper("mapper2", {"b": "y"})
     group = MappingGroup([mapper1, mapper2])
     assert len(group._container) == 2
+
+
+def test_mapping_group_invalid_mapper():
+    """Tests that MappingGroup raises a ValueError when initialized with an invalid mapper."""
+    invalid_mapper = object()  # Not a Mapper instance
+    with pytest.raises(ValueError, match="is not a mapper"):
+        MappingGroup([invalid_mapper])
 
 
 def test_mapping_group_empty_container():

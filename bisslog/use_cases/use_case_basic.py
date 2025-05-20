@@ -1,123 +1,150 @@
-"""Use case tracking system class implementation.
+"""
+Use case tracking system class implementation.
 
 This module provides an abstract base class `BasicUseCase` that integrates
-transactional tracing into a use case execution flow."""
+transactional tracing into a use case execution flow.
+"""
 
 from abc import ABC
-from typing import Optional
+from typing import Optional, Generic, Callable
+
+from bisslog.transactional.transaction_traceable import TransactionTraceable
 
 from .use_case_base import UseCaseBase
-from ..transactional.transaction_traceable import TransactionTraceable
+from .use_case_decorator import use_case
+from ..typing_compat import ParamSpec, P, R
 
 
-class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
-    """Abstract base class for use cases with transactional tracing.
+if ParamSpec is not None:
 
-    This class provides a structured way to execute use cases while tracking
-    transactions using a tracing system."""
+    class BasicUseCase(UseCaseBase, TransactionTraceable, ABC, Generic[P, R]):
+        """Base class for use cases with optional transactional tracing.
 
-    def __init__(self, keyname: Optional[str] = None, *, do_trace: bool = True) -> None:
-        """Initializes the use case with optional tracing.
+        Automatically looks for a method decorated with @use_case. If none is found,
+        falls back to a method named `use`, which will be decorated dynamically.
 
-        Parameters
-        ----------
-        keyname : Optional[str]
-            Unique identifier for the use case.
-        do_trace : bool, optional
-            Determines if tracing should be enabled (default is True)."""
-        UseCaseBase.__init__(self, keyname)
-        TransactionTraceable.__init__(self)
-        self._do_trace = do_trace
+        On call, the selected method is executed as the entrypoint.
+        """
 
-    def __call__(self, *args, **kwargs):
-        """Makes the use case callable, triggering its execution.
+        def __init__(self, keyname: Optional[str] = None, *, do_trace: bool = True) -> None:
+            UseCaseBase.__init__(self, keyname)
+            self._do_trace = do_trace
+            self._entrypoint = self._resolve_entrypoint()
 
-        Parameters
-        ----------
-        *args
-            Positional arguments for the use case.
-        **kwargs
-            Keyword arguments for the use case.
+        def _resolve_entrypoint(self) -> Callable[P, R]:
+            """Resolves the method to be used as the use case entrypoint.
 
-        Returns
-        -------
-        object
-            The result of the use case execution."""
-        return self._use(*args, **kwargs)
+            Priority:
+            1. Method explicitly decorated with @use_case.
+            2. Method named `use`, decorated dynamically if needed.
 
-    def __start(self, *args, super_transaction_id: Optional[str] = None, **kwargs) -> Optional[str]:
-        """Starts a transaction for the use case.
+            Returns
+            -------
+            Callable[P, R]
+                The resolved entrypoint function.
 
-        If tracing is enabled or no parent transaction is provided, a new transaction is created.
+            Raises
+            ------
+            AttributeError
+                If no suitable method is found.
+            """
+            for attr_name in dir(self):
+                attr = getattr(self, attr_name)
+                if callable(attr) and getattr(attr, "__is_use_case__", False):
+                    return attr
 
-        Parameters
-        ----------
-        *args
-            Positional arguments.
-        super_transaction_id : Optional[str], optional
-            The ID of an existing transaction that this use case is part of.
-        **kwargs
-            Additional keyword arguments.
+            use_fn = getattr(self, "use", None) or getattr(self, "run", None)
+            if use_fn is None or not callable(use_fn):
+                raise AttributeError(
+                    f"No method decorated with @use_case or named 'use' "
+                    f"found in {self.__class__.__name__}"
+                )
 
-        Returns
-        -------
-        Optional[str]
-            The transaction ID created or the provided parent transaction ID."""
-        if self._do_trace or super_transaction_id is None:
-            transaction_id = self._transaction_manager.create_transaction_id(self.keyname)
+            if not getattr(use_fn, "__is_use_case__", False):
+                use_fn = use_case(keyname=self.keyname, do_trace=self._do_trace)(use_fn)
+                setattr(self, "use", use_fn)
 
-            self._tracing_opener.start(*args, super_transaction_id=super_transaction_id,
-                                       component=self.keyname,
-                                       transaction_id=transaction_id, **kwargs)
-            return transaction_id
-        return super_transaction_id
+            return use_fn
 
-    def __end(self, transaction_id: str, super_transaction_id: Optional[str], result: object):
-        """Ends the transaction after use case execution.
+        def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
+            """
+            Invokes the resolved use case entrypoint method.
 
-        If tracing is enabled, it ensures the transaction is properly closed.
+            Parameters
+            ----------
+            *args :
+                Positional arguments.
+            **kwargs :
+                Keyword arguments.
 
-        Parameters
-        ----------
-        transaction_id : str
-            The transaction ID of the executed use case.
-        super_transaction_id : Optional[str]
-            The ID of the parent transaction, if any.
-        result : object
-            The result of the use case execution."""
-        if self._do_trace:
-            self._transaction_manager.close_transaction()
-            self._tracing_opener.end(transaction_id=transaction_id, component=self.keyname,
-                                     super_transaction_id=super_transaction_id, result=result)
+            Returns
+            -------
+            R
+                The result of the use case.
+            """
+            return self._entrypoint(*args, **kwargs)
 
-    def _use(self, *args, **kwargs):
-        """Executes the use case with transactional tracing.
+else:
+    class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
+        """Fallback for use cases without signature preservation (ParamSpec unavailable).
 
-        This method manages the transaction lifecycle before and after executing
-        the `use` method, ensuring proper logging and error handling.
+        This version is used on Python versions < 3.10 without typing_extensions installed.
+        """
 
-        Parameters
-        ----------
-        *args
-            Positional arguments for the use case.
-        **kwargs
-            Keyword arguments for the use case.
+        def __init__(self, keyname: Optional[str] = None, *, do_trace: bool = True) -> None:
+            UseCaseBase.__init__(self, keyname)
+            self._do_trace = do_trace
+            self._entrypoint = self._resolve_entrypoint()
 
-        Returns
-        -------
-        object
-            The result of the use case execution.
+        def _resolve_entrypoint(self) -> Callable[..., R]:
+            """Resolves the method to be used as the use case entrypoint.
 
-        Raises
-        ------
-        BaseException
-            If an error occurs during execution, it is logged and re-raised."""
-        super_transaction_id = kwargs.pop("transaction_id", None)
-        transaction_id = self.__start(*args, super_transaction_id=super_transaction_id, **kwargs)
-        if super_transaction_id is None:
-            super_transaction_id = transaction_id
+            Priority:
+            1. Method explicitly decorated with @use_case.
+            2. Method named `use`, decorated dynamically if needed.
 
-        res = self.use(*args, transaction_id=transaction_id, **kwargs)
-        self.__end(transaction_id=transaction_id,
-                   super_transaction_id=super_transaction_id, result=res)
-        return res
+            Returns
+            -------
+            Callable[..., R]
+                The resolved entrypoint function.
+
+            Raises
+            ------
+            AttributeError
+                If no suitable method is found.
+            """
+            for attr_name in dir(self):
+                attr = getattr(self, attr_name)
+                if callable(attr) and getattr(attr, "__is_use_case__", False):
+                    return attr
+
+            use_fn = getattr(self, "use", None) or getattr(self, "run", None)
+            if use_fn is None or not callable(use_fn):
+                raise AttributeError(
+                    f"No method decorated with @use_case or named "
+                    f"'use' found in {self.__class__.__name__}"
+                )
+
+            if not getattr(use_fn, "__is_use_case__", False):
+                use_fn = use_case(keyname=self.keyname, do_trace=self._do_trace)(use_fn)
+                setattr(self, "use", use_fn)
+
+            return use_fn
+
+        def __call__(self, *args, **kwargs):
+            """
+            Invokes the resolved use case entrypoint method.
+
+            Parameters
+            ----------
+            *args :
+                Positional arguments.
+            **kwargs :
+                Keyword arguments.
+
+            Returns
+            -------
+            object
+                The result of the use case.
+            """
+            return self._entrypoint(*args, **kwargs)

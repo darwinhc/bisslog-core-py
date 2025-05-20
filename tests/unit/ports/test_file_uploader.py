@@ -4,13 +4,15 @@ from unittest.mock import MagicMock
 from bisslog.ports.upload_file import IUploadFile
 
 
-# Implementación de prueba para simular una clase concreta
 class UploadFileMock(IUploadFile):
-    def upload_file_from_local(self, local_path: str, remote_path: str, *args, transaction_id: Optional[str] = None, **kwargs) -> bool:
+    def upload_file_from_local(self, local_path: str, remote_path: str, *args,
+                               transaction_id: Optional[str] = None, **kwargs) -> bool:
         return True
 
-    def upload_file_stream(self, remote_path: str, stream: bytes, *args, transaction_id: Optional[str] = None, **kwargs) -> bool:
+    def upload_file_stream(self, remote_path: str, stream: bytes, *args,
+                           transaction_id: Optional[str] = None, **kwargs) -> bool:
         return True
+
 
 def test_upload_file_from_local():
     uploader = UploadFileMock()
@@ -18,6 +20,7 @@ def test_upload_file_from_local():
 
     assert uploader_mock.upload_file_from_local("local.txt", "remote.txt") is True
     uploader_mock.upload_file_from_local.assert_called_once_with("local.txt", "remote.txt")
+
 
 def test_upload_file_stream():
     uploader = UploadFileMock()

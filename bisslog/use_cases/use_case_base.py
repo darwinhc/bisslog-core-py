@@ -1,5 +1,5 @@
 """Module defining the base class for use cases."""
-from abc import abstractmethod, ABC
+from abc import ABC
 
 from typing import Optional
 
@@ -17,11 +17,3 @@ class UseCaseBase(ABC):
 
     def __init__(self, keyname: Optional[str] = None):
         self.keyname = keyname if keyname else self.__class__.__name__
-
-    @abstractmethod
-    def use(self, *args, **kwargs):
-        """Method that executes a use case"""
-
-    def __call__(self, *args, **kwargs):
-        """Method that executes a use case"""
-        return self.use(*args, **kwargs)
