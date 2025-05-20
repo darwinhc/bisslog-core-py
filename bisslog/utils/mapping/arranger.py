@@ -116,7 +116,8 @@ class IArranger(ABC):
             res = datetime.fromtimestamp(value)
         elif isinstance(value, str):
             res = IArranger.process_datetime_when_is_string(value, date_format)
-        elif default_value == "now":
+
+        if res is None and default_value == "now":
             res = datetime.now()
 
         if transform is not None and isinstance(res, datetime):
@@ -146,7 +147,7 @@ class IArranger(ABC):
         return None
 
     @staticmethod
-    def __process_string(value, *_, **__) -> str:
+    def __process_string(value, default_value: Optional[str] = None, *_, **__) -> str:
         """Casts the value to a string.
 
         Parameters
@@ -159,7 +160,7 @@ class IArranger(ABC):
         str
             String representation of the input.
         """
-        return str(value)
+        return str(value) if value is not None else default_value
 
     @staticmethod
     def __process_integer(value, *_, **__) -> Optional[int]:
@@ -239,9 +240,9 @@ class IArranger(ABC):
         Any
             Transformed value or default.
         """
-        if dtype in self.__processors and value is not None:
+        if dtype in self.__processors:
             _process = self.__processors[dtype]
-            res = _process(value, defaultValue=default_value, *args, **kwargs)
+            res = _process(value, default_value=default_value, *args, **kwargs)
             if res is not None:
                 return res
         return default_value
