@@ -1,4 +1,3 @@
-import pytest
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
@@ -18,11 +17,12 @@ def test_concurrent_transactions():
     num_threads = 100  # Number of concurrent threads
 
     with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        futures = [executor.submit(create_and_get_transaction) for _ in range(num_threads*3)]
+        futures = [executor.submit(create_and_get_transaction) for _ in range(num_threads * 3)]
 
     for future in futures:
         future.result()  # Ensures all assertions pass
     transaction_manager.clear()
+
 
 def test_transaction_isolation():
     """Test"""
@@ -37,17 +37,15 @@ def test_transaction_isolation():
             if i == 0:
                 assert transaction_manager.get_transaction_id() is None
             else:
-                assert prc_transactions[i-1] == transaction_manager.get_transaction_id()
+                assert prc_transactions[i - 1] == transaction_manager.get_transaction_id()
             transaction_id = transaction_manager.create_transaction_id(f"component_{thread_id}")
             prc_transactions[i] = transaction_id
 
-
         for i in range(n):
-            if i < n-1:
+            if i < n - 1:
                 assert prc_transactions[0] == transaction_manager.get_main_transaction_id()
             transaction_manager.close_transaction()
         threads_used.add(thread_id)
-
 
     threads = [threading.Thread(target=create_transaction_in_thread) for _ in range(100)]
 
@@ -60,6 +58,7 @@ def test_transaction_isolation():
     assert not threads_used - set(transaction_manager._thread_active_transaction_mapping.keys())
     # assert len(set(transaction_ids.values())) == 50  # Ensure all transaction IDs are unique
     transaction_manager.clear()
+
 
 def test_main_transaction():
     """Test getting the first transaction in a thread."""
@@ -77,6 +76,7 @@ def test_main_transaction():
     assert "main_component" == current_component
     transaction_manager.clear()
 
+
 def test_no_transaction():
     """Test getting the first transaction in a thread when no transaction exists."""
     transaction_manager.clear()
@@ -84,6 +84,7 @@ def test_no_transaction():
     assert transaction_manager.get_main_transaction_id() is None
     assert transaction_manager.get_component() is None
     transaction_manager.clear()
+
 
 def test_close_transaction():
     """Ensure closing a transaction removes it from the thread's list."""

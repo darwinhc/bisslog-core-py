@@ -83,7 +83,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The error payload containing relevant data.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the error.
@@ -91,7 +91,7 @@ class TransactionalTracer(Tracer, ABC):
             The checkpoint where the error occurred.
         extra : dict, optional
             Additional metadata for tracing.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method func_error")  # pragma: no cover
@@ -108,7 +108,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The error payload containing relevant data.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the error.
@@ -118,7 +118,7 @@ class TransactionalTracer(Tracer, ABC):
             Additional metadata for tracing.
         error: Exception
             Captured error to be logged.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method tech_error")  # pragma: no cover
@@ -135,7 +135,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The payload containing relevant data about the external process.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the external process.
@@ -143,7 +143,7 @@ class TransactionalTracer(Tracer, ABC):
             The checkpoint where the external process started.
         extra : dict, optional
             Additional metadata for tracing.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method report_start_external")  # pragma: no cover
@@ -160,7 +160,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The payload containing relevant data about the external process.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the external process.
@@ -168,7 +168,7 @@ class TransactionalTracer(Tracer, ABC):
             The checkpoint where the external process ended.
         extra : dict, optional
             Additional metadata for tracing.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method report_end_external")  # pragma: no cover
@@ -183,7 +183,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -191,7 +191,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method info")  # pragma: no cover
@@ -205,7 +205,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -213,7 +213,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method debug")  # pragma: no cover
@@ -227,7 +227,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -235,7 +235,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method warning")  # pragma: no cover
@@ -249,7 +249,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -257,7 +257,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method error")  # pragma: no cover
@@ -271,7 +271,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -279,7 +279,7 @@ class TransactionalTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging.
-        **kwargs: dict
+        **kwargs
             Keyword arguments"""
         raise NotImplementedError(
             "TracingManager must implement method critical")  # pragma: no cover

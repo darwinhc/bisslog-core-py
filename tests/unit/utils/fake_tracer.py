@@ -1,5 +1,3 @@
-from typing import Optional
-
 from bisslog.ports.tracing.tracer import Tracer
 
 

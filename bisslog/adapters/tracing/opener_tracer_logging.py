@@ -29,7 +29,7 @@ class OpenerTracerLogging(OpenerTracer):
             The component initiating the operation.
         super_transaction_id : Optional[str], default=None
             The parent transaction ID, if applicable.
-        kwargs : dict
+        kwargs
             Keyword arguments"""
         extra = {'checkpoint_id': "start-" + component, 'transaction_id': transaction_id}
         super_transaction_id = super_transaction_id or ''

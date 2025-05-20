@@ -13,8 +13,6 @@ def fake_tracer():
 def blank_adapter(fake_tracer):
     """Creates an instance of BlankAdapter."""
 
-
-
     class BlankAdapterModified(BlankAdapter):
         tracer = fake_tracer
 
@@ -22,7 +20,8 @@ def blank_adapter(fake_tracer):
         def log(self):
             return self.tracer
 
-    return BlankAdapterModified(name_division_not_found="unknown_division", original_comp="test_component")
+    return BlankAdapterModified(name_division_not_found="unknown_division",
+                                original_comp="test_component")
 
 
 def test_initialization(blank_adapter):

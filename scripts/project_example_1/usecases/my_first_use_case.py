@@ -10,11 +10,13 @@ class SumarUseCase(FullUseCase):
 
     def use(self, a: int, b: int, user_id: int, transaction_id: str, *args, **kwargs) -> dict:
         component = self._transaction_manager.get_component()
-        self.log.info("Se recibe a:%d b:%d %s", a, b, component, checkpoint_id="reception",
+        self.log.info("Received sumar a:%d b:%d %s",
+                      a, b, component, checkpoint_id="reception",
                       transaction_id=transaction_id)
         last_session = db.session.get_last_session_user(user_id)
         if last_session is not None:
-            self.log.info(f"La última sesión del usuario {user_id} fue {last_session}", checkpoint_id="last_session")
+            self.log.info(f"Last session of the user {user_id} fue {last_session}",
+                          checkpoint_id="last_session")
         db.session.save_new_session_user(user_id)
 
         db.event_type.loadWebhookEventType(5)
@@ -24,7 +26,7 @@ class SumarUseCase(FullUseCase):
 
         res = a + b
         if res > 10:
-            self.log.warning("Es mayor que 10", checkpoint_id="check-response")
+            self.log.warning("It is greater than 10", checkpoint_id="check-response")
 
         self.publish("queue_suma", {"suma": res + new_value, "operation" : "a + b"})
         return {"suma": res}

@@ -1,4 +1,5 @@
 import pytest
+
 from bisslog.adapters.tracing.transactional_tracer_logging import TransactionalTracerLogging
 
 
@@ -51,10 +52,10 @@ def test_logging_payloads(tracer, caplog, method, level, payload):
     assert str(payload[0]).split()[0] in last_record.message
 
 
-def test_tech_error_with_exception_stringified(tracer, caplog):
+def test_raises_tech_error_with_string_exception(tracer, caplog):
     """Ensures tech_error logs exception details."""
     with caplog.at_level("CRITICAL"):
-        tracer.tech_error("Error occurred", error=RuntimeError("fail!"), transaction_id="txid")
+        tracer.tech_error("Error occurred", error=RuntimeError("fail!"), transaction_id="tx-id")
 
     assert any("fail!" in record.message for record in caplog.records)
     assert any("Error occurred" in record.message for record in caplog.records)

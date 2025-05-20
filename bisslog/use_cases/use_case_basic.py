@@ -8,6 +8,7 @@ transactional tracing into a use case execution flow.
 from abc import ABC
 from typing import Optional, Generic, Callable
 
+from bisslog.transactional.transaction_traceable import TransactionTraceable
 
 from .use_case_base import UseCaseBase
 from .use_case_decorator import use_case
@@ -16,7 +17,7 @@ from ..typing_compat import ParamSpec, P, R
 
 if ParamSpec is not None:
 
-    class BasicUseCase(UseCaseBase, ABC, Generic[P, R]):
+    class BasicUseCase(UseCaseBase, TransactionTraceable, ABC, Generic[P, R]):
         """Base class for use cases with optional transactional tracing.
 
         Automatically looks for a method decorated with @use_case. If none is found,
@@ -84,7 +85,7 @@ if ParamSpec is not None:
             return self._entrypoint(*args, **kwargs)
 
 else:
-    class BasicUseCase(UseCaseBase, ABC):
+    class BasicUseCase(UseCaseBase, TransactionTraceable, ABC):
         """Fallback for use cases without signature preservation (ParamSpec unavailable).
 
         This version is used on Python versions < 3.10 without typing_extensions installed.

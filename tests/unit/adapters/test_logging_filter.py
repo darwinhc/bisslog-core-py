@@ -1,6 +1,9 @@
 import logging
+
 import pytest
-from bisslog.adapters.tracing.logging_filter import BisslogFilterLogging  # Replace 'your_module' with the actual module name
+
+from bisslog.adapters.tracing.logging_filter import \
+    BisslogFilterLogging  # Replace 'your_module' with the actual module name
 
 
 @pytest.fixture

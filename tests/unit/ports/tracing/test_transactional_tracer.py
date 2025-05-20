@@ -1,5 +1,7 @@
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
+
 from tests.unit.ports.tracing.fake_transactional_tracer import FakeTransactionalTracer
 
 
@@ -17,6 +19,7 @@ def test_re_args_with_main(mock_manager, transactional_tracer):
     result = transactional_tracer._re_args_with_main()
 
     assert result == {"transaction_id": "1234-5678", "checkpoint_id": ""}
+
 
 @patch("bisslog.ports.tracing.transactional_tracer.transaction_manager")
 def test_re_args_with_current(mock_manager, transactional_tracer):
@@ -45,13 +48,15 @@ def test_re_args_with_main_defaults(mock_manager, transactional_tracer):
 
 @patch("bisslog.ports.tracing.transactional_tracer.transaction_manager")
 def test_re_args_with_main_provided_values(mock_manager, transactional_tracer):
-    result = transactional_tracer._re_args_with_main(transaction_id="tx-123", checkpoint_id="cp-456")
+    result = transactional_tracer._re_args_with_main(transaction_id="tx-123",
+                                                     checkpoint_id="cp-456")
 
     assert result == {
         "transaction_id": "tx-123",
         "checkpoint_id": "cp-456"
     }
     mock_manager.get_main_transaction_id.assert_not_called()
+
 
 @patch("bisslog.ports.tracing.transactional_tracer.transaction_manager")
 def test_re_args_with_current_defaults(mock_manager, transactional_tracer):
@@ -65,9 +70,11 @@ def test_re_args_with_current_defaults(mock_manager, transactional_tracer):
     }
     mock_manager.get_transaction_id.assert_called_once()
 
+
 @patch("bisslog.ports.tracing.transactional_tracer.transaction_manager")
 def test_re_args_with_current_provided_values(mock_manager, transactional_tracer):
-    result = transactional_tracer._re_args_with_current(transaction_id="tx-999", checkpoint_id="cp-abc")
+    result = transactional_tracer._re_args_with_current(transaction_id="tx-999",
+                                                        checkpoint_id="cp-abc")
 
     assert result == {
         "transaction_id": "tx-999",
