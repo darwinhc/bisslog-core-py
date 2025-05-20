@@ -1,4 +1,5 @@
 import logging
+
 import pytest
 
 from bisslog.adapters.tracing.service_tracer_logging import ServiceTracerLogging

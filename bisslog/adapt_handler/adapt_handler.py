@@ -1,5 +1,6 @@
 """Module providing the AdaptHandler class for managing adapters in a
 domain-driven design (DDD) context."""
+from typing import Dict, Any
 
 from ..adapters.blank_adapter import BlankAdapter
 from ..domain_context import domain_context
@@ -42,7 +43,7 @@ class AdaptHandler:
 
         Parameters
         ----------
-        **named_division_instances : dict
+        **named_division_instances
             A mapping of division names to their respective adapter instances."""
         for division_name, adapter in named_division_instances.items():
             if division_name in self._divisions:

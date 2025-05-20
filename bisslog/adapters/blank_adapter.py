@@ -9,6 +9,17 @@ class BlankAdapter(BaseAdapter):
         self.division_name = name_division_not_found
         self.original_comp = original_comp
 
+    def _log_blank_call(self, method_name: str, *args, **kwargs):
+        """Centralized logging for undefined adapter method calls."""
+        separator = "#" * 80
+        self.log.info(
+            "\n" + separator + "\n" +
+            f"Blank adapter for {self.original_comp} on division: {self.division_name} \n"
+            f"execution of method '{method_name}' with args {args}, kwargs {kwargs}\n" +
+            separator,
+            checkpoint_id="bisslog-blank-division"
+        )
+
     def __getattribute__(self, item):
         """Overrides attribute access to provide a blank implementation for undefined methods.
 
@@ -27,20 +38,9 @@ class BlankAdapter(BaseAdapter):
             pass
 
         def blank_use_of_adapter(*args, **kwargs):
-            """Logs a message indicating that a method was called on a blank adapter.
+            self._log_blank_call(item, *args, **kwargs)
 
-            Parameters
-            ----------
-            *args
-                Positional arguments passed to the method.
-            **kwargs
-                Keyword arguments passed to the method."""
-            separator = "#" * 80
-
-            self.log.info(
-                "\n" + separator + "\n" +
-                f"Blank adapter for {self.original_comp} on division: {self.division_name} \n"
-                f"execution of method '{item}' with args {args}, kwargs {kwargs}\n" + separator,
-                checkpoint_id="bisslog-blank-division"
-            )
         return blank_use_of_adapter
+
+    def __call__(self, *args, **kwargs):
+        self._log_blank_call("__call__", *args, **kwargs)

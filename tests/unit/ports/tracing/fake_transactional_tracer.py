@@ -1,5 +1,4 @@
 from typing import Optional
-from unittest.mock import MagicMock
 
 from bisslog.ports.tracing.transactional_tracer import TransactionalTracer
 

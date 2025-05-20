@@ -1,11 +1,14 @@
-from bisslog.use_cases.use_case_full import FullUseCase
+from bisslog import use_case, domain_context, transaction_manager, bisslog_upload_file
 
 
-class MySecondUseCase(FullUseCase):
+log = domain_context.tracer
 
-    def use(self, value: float, product_type: str, *args, **kwargs) -> float:
+@use_case
+def my_second_use_case(value: float, product_type: str, *args, **kwargs) -> float:
 
-        self.log.info("Se recibió valor %d %s", value, self._transaction_manager.get_component(), checkpoint_id="second-reception")
+        log.info(
+            "Received %d %s", value, transaction_manager.get_component(),
+            checkpoint_id="second-reception")
 
         if product_type == "string1":
             new_value = value * .2
@@ -16,13 +19,11 @@ class MySecondUseCase(FullUseCase):
         else:
             new_value = value * .05
 
-        uploaded = self.upload_file_from_local("./test.txt", "/app/casa/20")
+        uploaded = bisslog_upload_file.main.upload_file_from_local("./test.txt", "/app/casa/20")
 
         if uploaded:
 
-            self.log.info("Uploaded file component: %s", self._transaction_manager.get_component(), checkpoint_id="uploaded-file")
+            log.info("Uploaded file component: %s", transaction_manager.get_component(),
+                     checkpoint_id="uploaded-file")
 
         return new_value
-
-
-my_second_use_case = MySecondUseCase()

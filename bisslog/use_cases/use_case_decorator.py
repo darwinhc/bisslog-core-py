@@ -60,7 +60,7 @@ def _run_with_trace(
     ----------
     fn : Callable
         The original use case function to invoke.
-    args : tuple
+    args : Any
         Positional arguments to pass to the function.
     kwargs : dict
         Keyword arguments to pass to the function.
