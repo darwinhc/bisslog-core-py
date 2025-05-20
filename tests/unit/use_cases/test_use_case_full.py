@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 from bisslog import FullUseCase, use_case as use_case_decorator
 

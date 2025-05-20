@@ -1,6 +1,6 @@
 import pytest
 
-from bisslog.adapt_handler.external_system_handler import ExtSysHandler, bisslog_ext_sys
+from bisslog.adapt_handler.external_system_handler import ExtSysHandler
 from bisslog.adapters.blank_adapter import BlankAdapter
 
 

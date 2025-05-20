@@ -1,5 +1,6 @@
 from bisslog.utils.singleton import SingletonReplaceAttrsMeta
 
+
 class MySingleton(metaclass=SingletonReplaceAttrsMeta):
     def __init__(self, name=None, value=None):
         self.name = name

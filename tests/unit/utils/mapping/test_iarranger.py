@@ -1,6 +1,8 @@
-import pytest
 from datetime import datetime
-from bisslog.utils.mapping import IArranger  # Reemplaza 'your_module' con el nombre real del módulo
+
+import pytest
+
+from bisslog.utils.mapping import IArranger
 
 
 @pytest.fixture
@@ -112,6 +114,7 @@ def test_arrange_dt_value_with_now_default():
     result = arranger.arrange_value("2025-11-29", dtype="datetime", date_format=format_dt)
     assert isinstance(result, float)
 
+
 def test_arrange_value_datetime_now():
     arranger = IArranger()
     result = arranger.arrange_value(None, dtype="datetime", default_value="now")
@@ -123,4 +126,3 @@ def test_arrange_value_datetime_now():
 def test_arrange_value_direct_pass_through():
     arranger = IArranger()
     assert arranger.arrange_value("unchanged", dtype="-") == "unchanged"
-

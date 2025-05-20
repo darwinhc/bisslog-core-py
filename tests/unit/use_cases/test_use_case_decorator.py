@@ -1,17 +1,18 @@
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
+
 from bisslog import use_case
 
 
 @pytest.fixture
 def mock_context():
     with patch("bisslog.use_cases.use_case_decorator.tracing_opener") as tracer_mock, \
-         patch("bisslog.use_cases.use_case_decorator.transaction_manager") as txn_mock:
+            patch("bisslog.use_cases.use_case_decorator.transaction_manager") as txn_mock:
         yield tracer_mock, txn_mock
 
 
-def test_decorator_adds_is_use_case_attribute(mock_context):
-    tracer, txn = mock_context
+def test_decorator_adds_is_use_case_attribute():
 
     @use_case
     def sample():
@@ -73,15 +74,16 @@ def test_use_case_with_super_transaction_id(mock_context):
         result="value"
     )
 
+
 def test_use_case_does_not_trace_if_disabled(mock_context):
     tracer, txn = mock_context
 
     @use_case(do_trace=False)
-    def sample1(*args, **kwargs):
+    def sample1():
         return "ok"
 
     @use_case(do_trace=False)
-    def sample2(*args, **kwargs):
+    def sample2():
         return sample1()
 
     result = sample2()
