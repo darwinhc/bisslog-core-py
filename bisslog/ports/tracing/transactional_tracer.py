@@ -83,7 +83,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The error payload containing relevant data.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the error.
@@ -108,7 +108,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The error payload containing relevant data.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the error.
@@ -135,7 +135,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The payload containing relevant data about the external process.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the external process.
@@ -160,7 +160,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The payload containing relevant data about the external process.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             The transaction ID associated with the external process.
@@ -183,7 +183,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -205,7 +205,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -227,7 +227,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -249,7 +249,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
@@ -271,7 +271,7 @@ class TransactionalTracer(Tracer, ABC):
         ----------
         payload : object
             The data or message to be logged.
-        *args: tuple
+        *args
             Arguments
         transaction_id : Optional[str], optional
             An identifier for the transaction, by default None.
