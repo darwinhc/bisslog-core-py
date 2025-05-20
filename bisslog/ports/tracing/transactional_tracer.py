@@ -1,7 +1,7 @@
 """Module defining the base class for transactional tracing."""
 
 from abc import abstractmethod, ABC
-from typing import Optional
+from typing import Optional, Any
 
 from ...ports.tracing.tracer import Tracer
 from ...transactional.transaction_manager import TransactionManager, transaction_manager
@@ -73,7 +73,7 @@ class TransactionalTracer(Tracer, ABC):
         return {"transaction_id": transaction_id, "checkpoint_id": checkpoint_id}
 
     @abstractmethod
-    def func_error(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def func_error(self, payload: Any, *args, transaction_id: Optional[str] = None,
                    checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Reports a functional error in the tracing system.
 
@@ -81,7 +81,7 @@ class TransactionalTracer(Tracer, ABC):
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The error payload containing relevant data.
         *args
             Arguments
@@ -97,7 +97,7 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method func_error")  # pragma: no cover
 
     @abstractmethod
-    def tech_error(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def tech_error(self, payload: Any, *args, transaction_id: Optional[str] = None,
                    checkpoint_id: Optional[str] = None, error: Exception = None, extra: dict = None,
                    **kwargs):
         """Reports a technical error in the tracing system.
@@ -106,7 +106,7 @@ class TransactionalTracer(Tracer, ABC):
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The error payload containing relevant data.
         *args
             Arguments
@@ -124,7 +124,7 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method tech_error")  # pragma: no cover
 
     @abstractmethod
-    def report_start_external(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def report_start_external(self, payload: Any, *args, transaction_id: Optional[str] = None,
                               checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Reports the start of an external process in the tracing system.
 
@@ -133,7 +133,7 @@ class TransactionalTracer(Tracer, ABC):
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The payload containing relevant data about the external process.
         *args
             Arguments
@@ -149,7 +149,7 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method report_start_external")  # pragma: no cover
 
     @abstractmethod
-    def report_end_external(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def report_end_external(self, payload: Any, *args, transaction_id: Optional[str] = None,
                             checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Reports the end of an external process in the tracing system.
 
@@ -158,7 +158,7 @@ class TransactionalTracer(Tracer, ABC):
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The payload containing relevant data about the external process.
         *args
             Arguments
@@ -175,13 +175,13 @@ class TransactionalTracer(Tracer, ABC):
 
 
     @abstractmethod
-    def info(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def info(self, payload: Any, *args, transaction_id: Optional[str] = None,
              checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs an informational message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         *args
             Arguments
@@ -197,13 +197,13 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method info")  # pragma: no cover
 
     @abstractmethod
-    def debug(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def debug(self, payload: Any, *args, transaction_id: Optional[str] = None,
                  checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a debug message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         *args
             Arguments
@@ -219,13 +219,13 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method debug")  # pragma: no cover
 
     @abstractmethod
-    def warning(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def warning(self, payload: Any, *args, transaction_id: Optional[str] = None,
                  checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a warning message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         *args
             Arguments
@@ -241,13 +241,13 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method warning")  # pragma: no cover
 
     @abstractmethod
-    def error(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def error(self, payload: Any, *args, transaction_id: Optional[str] = None,
               checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs an error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         *args
             Arguments
@@ -263,13 +263,13 @@ class TransactionalTracer(Tracer, ABC):
             "TracingManager must implement method error")  # pragma: no cover
 
     @abstractmethod
-    def critical(self, payload: object, *args, transaction_id: Optional[str] = None,
+    def critical(self, payload: Any, *args, transaction_id: Optional[str] = None,
                  checkpoint_id: Optional[str] = None, extra: dict = None, **kwargs):
         """Logs a critical error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The data or message to be logged.
         *args
             Arguments

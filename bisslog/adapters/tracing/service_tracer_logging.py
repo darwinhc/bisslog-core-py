@@ -1,6 +1,6 @@
 """Module providing logging-based implementation of the ServiceTracer interface."""
 import logging
-from typing import Optional
+from typing import Optional, Any
 
 from ...ports.tracing.service_tracer import ServiceTracer
 
@@ -11,13 +11,13 @@ class ServiceTracerLogging(ServiceTracer):
     def __init__(self):
         self._logger = logging.getLogger("service-logger")
 
-    def info(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def info(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
              extra: dict = None, **kwargs):
         """Logs an informational message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger.
@@ -32,13 +32,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.info(payload, *args, **kwargs, extra=extra)
 
-    def debug(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def debug(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs a debug message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -53,13 +53,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.debug(payload, *args, **kwargs)
 
-    def warning(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def warning(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                 extra: dict = None, **kwargs):
         """Logs a warning message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -74,13 +74,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.warning(payload, *args, **kwargs, extra=extra)
 
-    def error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def error(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
               extra: dict = None, **kwargs):
         """Logs an error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -95,13 +95,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.error(payload, *args, **kwargs, extra=extra)
 
-    def critical(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def critical(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                  extra: dict = None, **kwargs):
         """Logs a critical error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -116,13 +116,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.critical(payload, *args, **kwargs, extra=extra)
 
-    def func_error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def func_error(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                    extra: dict = None, **kwargs):
         """Logs a function-related error message.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -137,13 +137,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.error(payload, *args, **kwargs, extra=extra)
 
-    def tech_error(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def tech_error(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                    error: Exception = None, extra: dict = None, **kwargs):
         """Logs a technical error message, optionally including an exception.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -163,13 +163,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.critical(new_payload, *args, **kwargs, extra=extra)
 
-    def report_start_external(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def report_start_external(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                               extra: dict = None, **kwargs):
         """Logs the start of an external process or interaction.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger
@@ -184,13 +184,13 @@ class ServiceTracerLogging(ServiceTracer):
         extra['transaction_id'] = 'service-logging'
         self._logger.info(payload, *args, **kwargs, extra=extra)
 
-    def report_end_external(self, payload: object, *args, checkpoint_id: Optional[str] = None,
+    def report_end_external(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
                             extra: dict = None, **kwargs):
         """Logs the end of an external process or interaction.
 
         Parameters
         ----------
-        payload : object
+        payload : Any
             The message or object to log.
         args: tuple
             Arguments to pass to the logger

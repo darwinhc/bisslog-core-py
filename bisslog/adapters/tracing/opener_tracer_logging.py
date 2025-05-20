@@ -1,6 +1,6 @@
 """Opener Tracer Logging."""
 import logging
-from typing import Optional
+from typing import Optional, Any
 
 from ...ports.tracing.opener_tracer import OpenerTracer
 
@@ -36,7 +36,7 @@ class OpenerTracerLogging(OpenerTracer):
         self._logger.debug(super_transaction_id, extra=extra)
 
     def end(self, *args, transaction_id: Optional[str], component: str,
-            super_transaction_id: Optional[str], result: object = None):
+            super_transaction_id: Optional[str], result: Any = None):
         """Logs the end of an operation, including the result.
 
         Parameters
@@ -47,7 +47,7 @@ class OpenerTracerLogging(OpenerTracer):
             The component that completed the operation.
         super_transaction_id : Optional[str]
             The parent transaction ID, if applicable.
-        result : object, default=None
+        result : Any, default=None
             The result of the operation, if available."""
         extra = {'checkpoint_id': "end-" + component, 'transaction_id': transaction_id}
         super_transaction_id = super_transaction_id or ''

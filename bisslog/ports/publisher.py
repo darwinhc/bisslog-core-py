@@ -1,6 +1,7 @@
 """Module defining the abstract IPublisher class for message publishing."""
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 
 class IPublisher(ABC):
@@ -10,14 +11,14 @@ class IPublisher(ABC):
     to a queue or topic."""
 
     @abstractmethod
-    def __call__(self, queue_name: str, body: object, *args, partition: str = None,  **kwargs):
+    def __call__(self, queue_name: str, body: Any, *args, partition: str = None,  **kwargs):
         """Publishes a message to the specified queue or topic.
 
         Parameters
         ----------
         queue_name : str
             The name of the queue or topic where the message will be published.
-        body : object
+        body : Any
             The message payload to be sent.
         partition : str, optional
             The partition key, if applicable (default is None)."""
