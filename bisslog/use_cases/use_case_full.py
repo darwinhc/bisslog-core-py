@@ -43,7 +43,7 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
             Optional partition identifier for the message.
         **kwargs
             Keyword arguments"""
-        self.__publisher(queue_name, body, *args, partition=partition, **kwargs)
+        self.__publisher.__call__(queue_name, body, *args, partition=partition, **kwargs)
 
     def upload_file_stream(self, remote_path: str, stream: bytes, *args,
                            transaction_id: Optional[str] = None, **kwargs) -> bool:
@@ -79,7 +79,7 @@ class FullUseCase(BasicUseCase, metaclass=ABCMeta):
             The local file path to be uploaded.
         remote_path : str
             The destination path where the file should be stored.
-        *args: tuple
+        *args
             Arguments to file uploader.
         transaction_id : Optional[str], default=None
             Optional transaction identifier.
