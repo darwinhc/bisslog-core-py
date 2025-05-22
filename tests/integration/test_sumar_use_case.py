@@ -27,7 +27,16 @@ Blank adapter for file-uploader on division: main
 execution of method 'upload_file_from_local' with args ('./test.txt', '/app/casa/20'), kwargs {}
 ################################################################################
 DEBUG    opener-logger:opener_tracer_logging.py:54 tx-002 with result 0.3
+DEBUG    opener-logger:opener_tracer_logging.py:36 
+INFO     transactional-tracer:transactional_tracer_logging.py:32 BUAJAJA
+INFO     transactional-tracer:transactional_tracer_logging.py:32 ()
+INFO     transactional-tracer:transactional_tracer_logging.py:32 third_uc_res 89
 WARNING  transactional-tracer:transactional_tracer_logging.py:70 It is greater than 10
+INFO     transactional-tracer:transactional_tracer_logging.py:32 
+################################################################################
+Blank adapter for publisher-default on division: main 
+execution of method '__call__' with args ('queue_suma', {'suma': 12.3, 'operation': 'a + b'}), kwargs {'partition': None}
+################################################################################
 """
 
 
