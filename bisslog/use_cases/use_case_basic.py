@@ -6,6 +6,7 @@ transactional tracing into a use case execution flow.
 """
 
 from abc import ABC
+from types import MethodType
 from typing import Optional, Generic, Callable
 
 from bisslog.transactional.transaction_traceable import TransactionTraceable
@@ -50,7 +51,12 @@ if ParamSpec is not None:
             """
             for attr_name in dir(self):
                 attr = getattr(self, attr_name)
-                if callable(attr) and getattr(attr, "__is_use_case__", False):
+
+                if not isinstance(attr, MethodType) or getattr(attr, "__self__", None) is None:
+                    continue
+                func = attr.__func__
+                if hasattr(func, "__is_use_case__"):
+                    # If the function is already decorated with @use_case, return it
                     return attr
 
             use_fn = getattr(self, "use", None) or getattr(self, "run", None)
@@ -60,10 +66,8 @@ if ParamSpec is not None:
                     f"found in {self.__class__.__name__}"
                 )
 
-            if not getattr(use_fn, "__is_use_case__", False):
-                use_fn = use_case(keyname=self.keyname, do_trace=self._do_trace)(use_fn)
-                setattr(self, "use", use_fn)
-
+            # Decorating the use function with @use_case if not already decorated
+            use_fn = use_case(keyname=use_fn.__name__, do_trace=self._do_trace)(use_fn)
             return use_fn
 
         def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
@@ -115,20 +119,23 @@ else:
             """
             for attr_name in dir(self):
                 attr = getattr(self, attr_name)
-                if callable(attr) and getattr(attr, "__is_use_case__", False):
+
+                if not isinstance(attr, MethodType) or getattr(attr, "__self__", None) is None:
+                    continue
+                func = attr.__func__
+                if hasattr(func, "__is_use_case__"):
+                    # If the function is already decorated with @use_case, return it
                     return attr
 
             use_fn = getattr(self, "use", None) or getattr(self, "run", None)
             if use_fn is None or not callable(use_fn):
                 raise AttributeError(
-                    f"No method decorated with @use_case or named "
-                    f"'use' found in {self.__class__.__name__}"
+                    f"No method decorated with @use_case or named 'use' "
+                    f"found in {self.__class__.__name__}"
                 )
 
-            if not getattr(use_fn, "__is_use_case__", False):
-                use_fn = use_case(keyname=self.keyname, do_trace=self._do_trace)(use_fn)
-                setattr(self, "use", use_fn)
-
+            # Decorating the use function with @use_case if not already decorated
+            use_fn = use_case(keyname=use_fn.__name__, do_trace=self._do_trace)(use_fn)
             return use_fn
 
         def __call__(self, *args, **kwargs):

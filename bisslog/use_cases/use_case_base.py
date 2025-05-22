@@ -15,5 +15,7 @@ class UseCaseBase(ABC):
 
     Reference: https://www.iso.org/obp/ui/#iso:std:iso-iec-ieee:24765:ed-2:v1:en"""
 
+    __is_use_case__ = True
+
     def __init__(self, keyname: Optional[str] = None):
         self.keyname = keyname if keyname else self.__class__.__name__

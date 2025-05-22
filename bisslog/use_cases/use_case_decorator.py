@@ -29,6 +29,22 @@ tracing_opener = domain_context.opener
 
 
 def _prepare_function(fn: Callable, keyname: Optional[str], do_trace: bool) -> Tuple[str, bool]:
+    """Prepares the function for use case decoration.
+
+    Parameters
+    ----------
+    fn : Callable
+        The function to decorate.
+    keyname : Optional[str]
+        The keyname for tracing, or None to use the function name.
+    do_trace : bool
+        Whether tracing is enabled.
+
+    Returns
+    -------
+    Tuple[str, bool]
+        The resolved keyname and whether the function accepts a transaction_id.
+    """
     m_keyname = keyname or fn.__name__
     sig = inspect.signature(fn)
     accepts_transaction_id = (
