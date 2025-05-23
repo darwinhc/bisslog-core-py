@@ -1,7 +1,5 @@
 """Module providing the AdaptHandler class for managing adapters in a
 domain-driven design (DDD) context."""
-from typing import Dict, Any
-
 from ..adapters.blank_adapter import BlankAdapter
 from ..domain_context import domain_context
 from ..ports.tracing.service_tracer import ServiceTracer

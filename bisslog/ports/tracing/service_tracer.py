@@ -60,7 +60,8 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging."""
-        raise NotImplementedError("TracingManager must implement method warning")  # pragma: no cover
+        raise NotImplementedError(
+            "TracingManager must implement method warning")  # pragma: no cover
 
     @abstractmethod
     def error(self, payload: Any, *args, checkpoint_id: Optional[str] = None,
@@ -90,4 +91,5 @@ class ServiceTracer(Tracer, ABC):
             An identifier for the tracing checkpoint.
         extra : dict, optional
             Additional context information for debugging."""
-        raise NotImplementedError("TracingManager must implement method critical")  # pragma: no cover
+        raise NotImplementedError(
+            "TracingManager must implement method critical")  # pragma: no cover
