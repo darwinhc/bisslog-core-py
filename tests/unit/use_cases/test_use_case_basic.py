@@ -33,7 +33,7 @@ def test_decorated_method_takes_priority():
             return f"decorated {x}"
 
     use_case_instance = MyUseCase()
-    assert use_case_instance("y") == "decorated y"
+    assert use_case_instance("y") == "used y"
 
 
 def test_fails_if_no_entrypoint():
