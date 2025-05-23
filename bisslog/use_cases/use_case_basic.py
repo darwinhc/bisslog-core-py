@@ -9,7 +9,7 @@ from abc import ABC
 from types import MethodType
 from typing import Optional, Generic, Callable
 
-from bisslog.transactional.transaction_traceable import TransactionTraceable
+from ..transactional.transaction_traceable import TransactionTraceable
 
 from .use_case_base import UseCaseBase
 from .use_case_decorator import use_case
@@ -31,6 +31,11 @@ if ParamSpec is not None:
             UseCaseBase.__init__(self, keyname)
             self._do_trace = do_trace
             self._entrypoint = self._resolve_entrypoint()
+
+        @property
+        def entrypoint(self) -> Callable[P, R]:
+            """Returns the entrypoint method for the use case."""
+            return self._entrypoint
 
         def _resolve_entrypoint(self) -> Callable[P, R]:
             """Resolves the method to be used as the use case entrypoint.
@@ -98,6 +103,11 @@ else:
             UseCaseBase.__init__(self, keyname)
             self._do_trace = do_trace
             self._entrypoint = self._resolve_entrypoint()
+
+        @property
+        def entrypoint(self) -> Callable[..., R]:
+            """Returns the entrypoint method for the use case."""
+            return self._entrypoint
 
         def _resolve_entrypoint(self) -> Callable[..., R]:
             """Resolves the method to be used as the use case entrypoint.
