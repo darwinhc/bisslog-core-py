@@ -2,7 +2,9 @@ from random import random
 
 from bisslog.database.bisslog_db import bisslog_db as db
 from bisslog.use_cases.use_case_full import FullUseCase
+
 from scripts.project_example_1.usecases.my_second_use_case import my_second_use_case
+from scripts.project_example_1.usecases.third_use_case import THIRD_USE_CASE
 
 
 
@@ -23,7 +25,8 @@ class SumarUseCase(FullUseCase):
         rand = random()
         new_value = my_second_use_case(
             value=rand*10, product_type="string2", transaction_id=transaction_id)
-
+        third_uc_res: int = THIRD_USE_CASE(something="BUAJAJA")
+        self.log.info("third_uc_res %d", third_uc_res)
         res = a + b
         if res > 10:
             self.log.warning("It is greater than 10", checkpoint_id="check-response")
