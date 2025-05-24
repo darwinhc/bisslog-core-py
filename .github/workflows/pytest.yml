@@ -17,7 +17,7 @@ on:
         description: "Directory containing the tests."
         required: false
         type: string
-        default: "tests/unit/"
+        default: "tests/"
   workflow_dispatch:
     inputs:
       coverage_threshold:
@@ -34,7 +34,7 @@ on:
         description: "Directory containing the tests."
         required: false
         type: string
-        default: "tests/unit/"
+        default: "tests/"
 
 jobs:
   test:
