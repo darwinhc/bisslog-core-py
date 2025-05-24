@@ -13,6 +13,11 @@ on:
         required: false
         type: string
         default: "bisslog"
+      target_tests:
+        description: "Directory containing the tests."
+        required: false
+        type: string
+        default: "tests/unit/"
   workflow_dispatch:
     inputs:
       coverage_threshold:
@@ -25,6 +30,11 @@ on:
         required: false
         type: string
         default: "bisslog"
+      target_tests:
+        description: "Directory containing the tests."
+        required: false
+        type: string
+        default: "tests/unit/"
 
 jobs:
   test:
@@ -61,4 +71,4 @@ jobs:
       - name: Run Tests with Coverage
         run: |
           COV_THRESHOLD=${{ inputs.coverage_threshold }}  # Convertir a variable de shell
-          pytest --cov=${{ inputs.target_folder }} --cov-report=term --cov-fail-under=$COV_THRESHOLD tests/
+          pytest --cov=${{ inputs.target_folder }} --cov-report=term --cov-fail-under=$COV_THRESHOLD ${{ inputs.target_tests }}
