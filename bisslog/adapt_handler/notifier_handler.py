@@ -14,4 +14,4 @@ class NotifierHandler(AdaptHandler):
     message publishing dynamically."""
 
 
-bisslog_notifier = NotifierHandler("publisher-default")
+bisslog_notifier = NotifierHandler("notifier-default")
