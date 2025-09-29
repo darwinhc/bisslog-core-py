@@ -57,7 +57,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest pytest-asyncio pytest-cov
+          pip install pytest pytest-cov
       - name: Install dependencies if requirements folder exists
         run: |
           if [ -d "requirements" ] && [ "$(ls -A requirements)" ]; then
