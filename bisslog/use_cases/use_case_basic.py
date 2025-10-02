@@ -21,7 +21,7 @@ if ParamSpec is not None:
     class BasicUseCase(UseCaseBase, TransactionTraceable, ABC, Generic[P, R]):
         """Base class for use cases with optional transactional tracing.
 
-        Automatically looks for a method decorated with @use_case. If none is found,
+        Automatically looks for a method decorated with @use_case. If none is found, it
         falls back to a method named `use`, which will be decorated dynamically.
 
         On call, the selected method is executed as the entrypoint.

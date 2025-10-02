@@ -3,7 +3,7 @@
 from ..adapt_handler.adapt_handler import AdaptHandler
 
 
-class BissLogDB(AdaptHandler):
+class BisslogDB(AdaptHandler):
     """Database adapter handler.
 
     This class extends `AdaptHandler` to provide a standardized way
@@ -15,4 +15,4 @@ class BissLogDB(AdaptHandler):
 
 
 # Global instance of the database adapter
-bisslog_db = BissLogDB("main-database")
+bisslog_db = BisslogDB("main-database")
