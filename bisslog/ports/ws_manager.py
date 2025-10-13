@@ -44,8 +44,10 @@ class WebSocketManager(ABC):
         self.conn = conn
 
     @abstractmethod
-    def emit(self, event: str, connection_id: str, payload: Any,
-             broadcast: bool = False, to: str = None):
+    def emit(  # pylint: disable=too-many-positional-arguments
+        self, event: str, connection_id: str, payload: Any,
+        broadcast: bool = False, to: str = None
+    ):
         """
         Emit a message to a specific connection or broadcast to a group.
 
