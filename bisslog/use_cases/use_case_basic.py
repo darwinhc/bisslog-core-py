@@ -61,7 +61,15 @@ if ParamSpec is not None:
                 return use_fn
 
             for attr_name in dir(self):
+                if attr_name.startswith("_"):
+                    continue
+                if attr_name in ("entrypoint",):  # avoid recursion
+                    continue
+
                 attr = getattr(self, attr_name)
+
+                if isinstance(attr, property):
+                    continue
 
                 if not isinstance(attr, MethodType) or getattr(attr, "__self__", None) is None:
                     continue
@@ -133,7 +141,14 @@ else:
                 return use_fn
 
             for attr_name in dir(self):
+                if attr_name.startswith("_"):
+                    continue
+                if attr_name in ("entrypoint",):  # avoid recursion
+                    continue
                 attr = getattr(self, attr_name)
+
+                if isinstance(attr, property):
+                    continue
 
                 if not isinstance(attr, MethodType) or getattr(attr, "__self__", None) is None:
                     continue
