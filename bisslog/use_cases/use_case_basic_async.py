@@ -14,16 +14,16 @@ Notes
   awaited. Otherwise, the value is returned as-is (no offloading to a thread
   pool is performed).
 """
-
-from typing import Generic
+from abc import ABC
+from typing import Generic, Callable
 import inspect
 
-from .use_case_basic import BasicUseCase
+from .use_case_entry_resolver import UseCaseEntryResolver
 from ..typing_compat import ParamSpec, P, R
 
 
 if ParamSpec is not None:
-    class AsyncBasicUseCase(BasicUseCase, Generic[P, R]):
+    class AsyncBasicUseCase(UseCaseEntryResolver, Generic[P, R], ABC):
         """
         Asynchronous variant of class `BasicUseCase`.
 
@@ -61,6 +61,11 @@ if ParamSpec is not None:
             ```
         """
 
+        @property
+        def entrypoint(self) -> Callable[P, R]:
+            """Returns the entrypoint method for the use case."""
+            return self._entrypoint
+
         async def __call__(self, *args: P.args, **kwargs: P.kwargs) -> R:
             """
             Invoke the resolved entrypoint and await if necessary.
@@ -91,7 +96,7 @@ if ParamSpec is not None:
             return res
 
 else:
-    class AsyncBasicUseCase(BasicUseCase):
+    class AsyncBasicUseCase(UseCaseEntryResolver, ABC):
         """
         Asynchronous variant of class `BasicUseCase` (fallback without ParamSpec).
 
@@ -117,6 +122,10 @@ else:
             result = await uc(42)
             ```
         """
+        @property
+        def entrypoint(self) -> Callable[..., R]:
+            """Returns the entrypoint method for the use case."""
+            return self._entrypoint
 
         async def __call__(self, *args, **kwargs):
             """
