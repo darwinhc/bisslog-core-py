@@ -66,7 +66,7 @@ if ParamSpec is not None:
                         _transaction_manager=transaction_manager,
                         _accepts_transaction_id=accepts_transaction_id
                     )
-                wrapper._is_coroutine = True
+                wrapper._is_coroutine = True  # pylint: disable=protected-access
             else:
                 @wraps(fn)
                 def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -133,7 +133,7 @@ else:
                         _transaction_manager=transaction_manager,
                         _accepts_transaction_id=accepts_transaction_id
                     )
-                wrapper._is_coroutine = True
+                wrapper._is_coroutine = True  # pylint: disable=protected-access
             else:
                 @wraps(fn)
                 def wrapper(*args, **kwargs) -> R:
