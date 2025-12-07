@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
     inputs:
       pylint_threshold:
-        description: "Mínimo puntaje de calidad requerido"
+        description: "Minimum pylint quality score required"
         required: false
         default: "9.0"
         type: string
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x"  # Usa la última versión disponible de Python
+          python-version: "3.13"
 
       - name: Install Dependencies
         run: |
